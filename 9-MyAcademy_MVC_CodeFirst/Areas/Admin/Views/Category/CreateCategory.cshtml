@@ -1,0 +1,18 @@
+﻿@model _9_MyAcademy_MVC_CodeFirst.Data.Entities.Category
+@{
+    ViewBag.Title = "CreateCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Create New Category</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label>Category Name</label>
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+    </div>
+    <br />
+    <button class="btn btn-outline-dark">Save</button>
+</form>
+

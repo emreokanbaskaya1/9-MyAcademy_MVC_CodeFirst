@@ -1,0 +1,16 @@
+﻿@model _9_MyAcademy_MVC_CodeFirst.Data.Entities.Category
+
+@{
+    ViewBag.Title = "UpdateCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Update Category</h2>
+
+<form method="post">
+    @Html.HiddenFor(x => x.Id)
+    <label>Category Name</label>
+    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+    <br />
+    <button class="btn btn-outline-dark">Save</button>
+</form>
