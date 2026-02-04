@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace _9_MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
 {
-    [RouteArea("Admin")]
+    
     public class CategoryController : Controller
     {
         AppDbContext context = new AppDbContext();
