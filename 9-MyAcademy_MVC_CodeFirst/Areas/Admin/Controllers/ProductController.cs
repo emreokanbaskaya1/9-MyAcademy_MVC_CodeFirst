@@ -44,5 +44,38 @@ namespace _9_MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
             context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
+
+        public ActionResult UpdateProduct(int id)
+        {
+            GetCategories();
+            var product = context.Products.Find(id);
+            return View(product);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateProduct(Product model)
+        {
+            var product = context.Products.Find(model.Id);
+            product.Name = model.Name;
+            product.Description = model.Description;
+            product.ImageUrl = model.ImageUrl;
+            product.Price = model.Price;
+            product.CategoryId = model.CategoryId;
+            context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult DeleteProduct(int id)
+        {
+            var product = context.Products.Find(id);
+            context.Products.Remove(product);
+            context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+
+
     }
 }

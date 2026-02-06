@@ -1,0 +1,28 @@
+﻿@model _9_MyAcademy_MVC_CodeFirst.Data.Entities.Product
+@{
+    ViewBag.Title = "CreateProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create New Product</h2>
+
+<form method="post">
+
+    <label>Product Name</label>
+    <input type="text" name="Name" class="form-control" required />
+    <br />
+    <label>Product Description</label>
+    <textarea type="text" name="Description" class="form-control" required rows="5"></textarea>
+    <br />
+    <label>Product Image Url</label>
+    <input type="text" name="ImageUrl" class="form-control" required />
+    <br />
+    <label>Price</label>
+    <input type="number" name="Price" class="form-control" required />
+    <br />
+    <label>Category</label>
+    @Html.DropDownListFor(x=>x.CategoryId, (List<SelectListItem>)ViewBag.categories, "Select Category", new {@class="form-control"})
+    <br />
+
+    <button class="btn btn-outline-dark">Save</button>
+</form>
