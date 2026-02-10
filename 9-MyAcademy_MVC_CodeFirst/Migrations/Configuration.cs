@@ -1,4 +1,4 @@
-﻿namespace _9_MyAcademy_MVC_CodeFirst.Migrations
+namespace _9_MyAcademy_MVC_CodeFirst.Migrations
 {
     using System;
     using System.Data.Entity;
@@ -10,6 +10,7 @@
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            AutomaticMigrationDataLossAllowed = false;
         }
 
         protected override void Seed(_9_MyAcademy_MVC_CodeFirst.Data.Context.AppDbContext context)

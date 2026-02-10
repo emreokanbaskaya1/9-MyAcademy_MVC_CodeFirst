@@ -11,11 +11,21 @@
     </a>
 </div>
 
+@if (Model.AIIsUrgent)
+{
+    <div class="bg-rose-50 dark:bg-rose-900/20 border-l-4 border-rose-500 p-4 mb-6 rounded-lg">
+        <div class="flex items-center gap-2 text-rose-800 dark:text-rose-300">
+            <span class="material-icons-outlined">warning</span>
+            <p class="font-medium">This message has been flagged as URGENT by AI analysis</p>
+        </div>
+    </div>
+}
+
 <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-6">
     <div class="flex items-start justify-between mb-6 pb-6 border-b border-gray-200 dark:border-surface-border">
         <div>
             <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">@Model.Subject</h2>
-            <div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+            <div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 flex-wrap">
                 <span class="flex items-center gap-1">
                     <span class="material-icons-outlined text-sm">schedule</span>
                     @Model.CreatedDate.ToString("dd MMM yyyy HH:mm")
@@ -35,6 +45,69 @@
             </div>
         </div>
     </div>
+
+    <!-- AI Classification Section -->
+    @if (!string.IsNullOrEmpty(Model.AICategory))
+    {
+        string cardColor;
+        string icon;
+        switch (Model.AICategory)
+        {
+            case "Complaint":
+                cardColor = "border-rose-200 bg-rose-50 dark:border-rose-800 dark:bg-rose-900/10";
+                icon = "sentiment_dissatisfied";
+                break;
+            case "Thank You":
+                cardColor = "border-emerald-200 bg-emerald-50 dark:border-emerald-800 dark:bg-emerald-900/10";
+                icon = "favorite";
+                break;
+            case "Inquiry":
+                cardColor = "border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-900/10";
+                icon = "help_outline";
+                break;
+            case "Request":
+                cardColor = "border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-900/10";
+                icon = "assignment";
+                break;
+            case "Feedback":
+                cardColor = "border-purple-200 bg-purple-50 dark:border-purple-800 dark:bg-purple-900/10";
+                icon = "rate_review";
+                break;
+            case "Urgent":
+                cardColor = "border-rose-200 bg-rose-50 dark:border-rose-800 dark:bg-rose-900/10";
+                icon = "priority_high";
+                break;
+            default:
+                cardColor = "border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800/30";
+                icon = "label";
+                break;
+        }
+
+        <div class="mb-6 p-4 rounded-lg border @cardColor">
+            <div class="flex items-center gap-3">
+                <span class="material-icons-outlined text-2xl">smart_toy</span>
+                <div>
+                    <p class="text-xs font-medium opacity-60 uppercase tracking-wide">AI Classification (Hugging Face)</p>
+                    <div class="flex items-center gap-3 mt-1">
+                        <span class="flex items-center gap-1 text-lg font-bold">
+                            <span class="material-icons-outlined">@icon</span>
+                            @Model.AICategory
+                        </span>
+                        @if (Model.AIConfidence.HasValue)
+                        {
+                            <span class="text-sm opacity-70">@Model.AIConfidence.Value% confidence</span>
+                        }
+                        @if (Model.AIIsUrgent)
+                        {
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-rose-500 text-white animate-pulse">
+                                URGENT
+                            </span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 
     <div class="space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -57,11 +130,14 @@
                 </p>
             </div>
             
-            @if (!string.IsNullOrEmpty(Model.Project))
+            @if (!string.IsNullOrEmpty(Model.InsuranceType))
             {
                 <div>
-                    <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Project</label>
-                    <p class="text-base text-gray-900 dark:text-white">@Model.Project</p>
+                    <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Insurance Type</label>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary">
+                        <span class="material-icons-outlined text-sm mr-2">shield</span>
+                        @Model.InsuranceType
+                    </span>
                 </div>
             }
         </div>

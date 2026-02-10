@@ -28,6 +28,7 @@
                     <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Name</th>
                     <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Email</th>
                     <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Subject</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">AI Category</th>
                     <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Date</th>
                     <th class="px-6 py-4 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Actions</th>
                 </tr>
@@ -35,9 +36,15 @@
             <tbody class="divide-y divide-gray-200 dark:divide-surface-border">
                 @foreach (var item in Model)
                 {
-                    <tr class="hover:bg-gray-50 dark:hover:bg-primary/5 transition-colors @(!item.IsRead ? "bg-blue-50 dark:bg-blue-900/10" : "")">
+                    <tr class="hover:bg-gray-50 dark:hover:bg-primary/5 transition-colors @(!item.IsRead ? "bg-blue-50 dark:bg-blue-900/10" : "") @(item.AIIsUrgent ? "border-l-4 border-l-rose-500" : "")">
                         <td class="px-6 py-4">
-                            @if (!item.IsRead)
+                            @if (item.AIIsUrgent)
+                            {
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-300">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5 animate-pulse"></span>Urgent
+                                </span>
+                            }
+                            else if (!item.IsRead)
                             {
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
                                     <span class="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5"></span>New
@@ -58,6 +65,52 @@
                         </td>
                         <td class="px-6 py-4">
                             <span class="text-sm text-gray-900 dark:text-white">@item.Subject</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            @if (!string.IsNullOrEmpty(item.AICategory))
+                            {
+                                string badgeColor;
+                                string icon;
+                                switch (item.AICategory)
+                                {
+                                    case "Complaint":
+                                        badgeColor = "bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-300";
+                                        icon = "sentiment_dissatisfied";
+                                        break;
+                                    case "Thank You":
+                                        badgeColor = "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300";
+                                        icon = "favorite";
+                                        break;
+                                    case "Inquiry":
+                                        badgeColor = "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300";
+                                        icon = "help_outline";
+                                        break;
+                                    case "Request":
+                                        badgeColor = "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300";
+                                        icon = "assignment";
+                                        break;
+                                    case "Feedback":
+                                        badgeColor = "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300";
+                                        icon = "rate_review";
+                                        break;
+                                    case "Urgent":
+                                        badgeColor = "bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-300";
+                                        icon = "priority_high";
+                                        break;
+                                    default:
+                                        badgeColor = "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300";
+                                        icon = "label";
+                                        break;
+                                }
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium @badgeColor">
+                                    <span class="material-icons-outlined text-xs mr-1">@icon</span>
+                                    @item.AICategory
+                                    @if (item.AIConfidence.HasValue)
+                                    {
+                                        <span class="ml-1 opacity-60">@item.AIConfidence.Value%</span>
+                                    }
+                                </span>
+                            }
                         </td>
                         <td class="px-6 py-4">
                             <span class="text-sm text-gray-600 dark:text-gray-400">@item.CreatedDate.ToString("dd MMM yyyy")</span>

@@ -179,11 +179,25 @@
     <Compile Include="Migrations\202602101235007_AddContactMessages.Designer.cs">
       <DependentUpon>202602101235007_AddContactMessages.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202602101938296_test.cs" />
+    <Compile Include="Migrations\202602101938296_test.Designer.cs">
+      <DependentUpon>202602101938296_test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202602101958398_AddAIClassificationFields.cs" />
+    <Compile Include="Migrations\202602101958398_AddAIClassificationFields.Designer.cs">
+      <DependentUpon>202602101958398_AddAIClassificationFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202602102026294_AddAIClassificationFields1.cs" />
+    <Compile Include="Migrations\202602102026294_AddAIClassificationFields1.Designer.cs">
+      <DependentUpon>202602102026294_AddAIClassificationFields1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContactViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\GeminiService.cs" />
+    <Compile Include="Services\HuggingFaceService.cs" />
     <Compile Include="Services\TavilyService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -470,6 +484,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202602101235007_AddContactMessages.resx">
       <DependentUpon>202602101235007_AddContactMessages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202602101938296_test.resx">
+      <DependentUpon>202602101938296_test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202602101958398_AddAIClassificationFields.resx">
+      <DependentUpon>202602101958398_AddAIClassificationFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202602102026294_AddAIClassificationFields1.resx">
+      <DependentUpon>202602102026294_AddAIClassificationFields1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

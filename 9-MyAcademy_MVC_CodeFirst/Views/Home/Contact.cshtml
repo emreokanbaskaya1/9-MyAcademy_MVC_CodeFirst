@@ -32,6 +32,14 @@
             </div>
         }
 
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
         <div class="row g-5">
             <div class="col-xl-6 wow fadeInLeft" data-wow-delay="0.2s">
                 <div class="contact-img d-flex justify-content-center">
@@ -70,8 +78,17 @@
                             </div>
                             <div class="col-lg-12 col-xl-6">
                                 <div class="form-floating">
-                                    @Html.TextBoxFor(m => m.Message.Project, new { @class = "form-control border-0", placeholder = "Project" })
-                                    <label for="Message_Project">Your Project</label>
+                                    <select name="Message.InsuranceType" id="Message_InsuranceType" class="form-select border-0" required>
+                                        <option value="">Select Insurance Type</option>
+                                        <option value="Life Insurance">Life Insurance</option>
+                                        <option value="Health Insurance">Health Insurance</option>
+                                        <option value="Auto Insurance">Auto Insurance</option>
+                                        <option value="Home Insurance">Home Insurance</option>
+                                        <option value="Travel Insurance">Travel Insurance</option>
+                                        <option value="Business Insurance">Business Insurance</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <label for="Message_InsuranceType">Insurance Type</label>
                                 </div>
                             </div>
                             <div class="col-12">

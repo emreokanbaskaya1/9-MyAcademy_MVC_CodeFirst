@@ -19,8 +19,9 @@ namespace _9_MyAcademy_MVC_CodeFirst.Data.Entities
         [MaxLength(50)]
         public string Phone { get; set; }
 
+        [Required(ErrorMessage = "Insurance type is required")]
         [MaxLength(100)]
-        public string Project { get; set; }
+        public string InsuranceType { get; set; }
 
         [Required(ErrorMessage = "Subject is required")]
         [MaxLength(200)]
@@ -32,5 +33,13 @@ namespace _9_MyAcademy_MVC_CodeFirst.Data.Entities
         public System.DateTime CreatedDate { get; set; } = System.DateTime.Now;
 
         public bool IsRead { get; set; } = false;
+
+        // AI Classification Fields (Hugging Face)
+        [MaxLength(50)]
+        public string AICategory { get; set; }
+
+        public double? AIConfidence { get; set; }
+
+        public bool AIIsUrgent { get; set; } = false;
     }
 }

@@ -40,6 +40,51 @@ namespace _9_MyAcademy_MVC_CodeFirst.Services
             }
         }
 
+        /// <summary>
+        /// Generates an automatic response to customer contact messages
+        /// </summary>
+        public async Task<string> GenerateContactAutoReply(string customerName, string subject, string message)
+        {
+            try
+            {
+                var prompt = $@"You are a professional customer service representative for LifeSure Insurance company.
+A customer named {customerName} has sent a message with the following details:
+
+Subject: {subject}
+Message: {message}
+
+Please generate a helpful, friendly, and professional response that:
+1. Acknowledges their inquiry
+2. Provides relevant information about insurance services if applicable
+3. Assures them that a team member will follow up soon
+4. Keeps the response concise (3-4 paragraphs maximum)
+
+Important: Write in a warm, professional tone. Do not make specific promises about pricing or policy details.
+Answer in English.";
+
+                return await GenerateContent(prompt);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error in GenerateContactAutoReply: " + ex.Message);
+                return GetFallbackAutoReply(customerName);
+            }
+        }
+
+        private string GetFallbackAutoReply(string customerName)
+        {
+            return $@"Dear {customerName},
+
+Thank you for reaching out to LifeSure Insurance. We have received your message and appreciate you taking the time to contact us.
+
+Our dedicated team is reviewing your inquiry and will get back to you within 24-48 business hours. If you have any urgent questions, please don't hesitate to call us directly.
+
+We look forward to assisting you with your insurance needs.
+
+Best regards,
+The LifeSure Insurance Team";
+        }
+
         private async Task<string> GenerateContent(string prompt)
         {
             try
