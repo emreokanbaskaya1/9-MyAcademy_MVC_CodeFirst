@@ -52,6 +52,12 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Configuration.ConfigurationBuilders.Base, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Configuration.ConfigurationBuilders.Base.3.0.0\lib\Net471\Microsoft.Configuration.ConfigurationBuilders.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Configuration.ConfigurationBuilders.UserSecrets, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Configuration.ConfigurationBuilders.UserSecrets.3.0.0\lib\Net471\Microsoft.Configuration.ConfigurationBuilders.UserSecrets.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -128,12 +134,28 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AboutController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BlogController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ContactController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FAQController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FeatureController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SliderController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TeamMemberController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TestimonialController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Data\Context\AppDbContext.cs" />
+    <Compile Include="Data\Entities\About.cs" />
+    <Compile Include="Data\Entities\Blog.cs" />
     <Compile Include="Data\Entities\Category.cs" />
+    <Compile Include="Data\Entities\Contact.cs" />
+    <Compile Include="Data\Entities\FAQ.cs" />
+    <Compile Include="Data\Entities\Feature.cs" />
     <Compile Include="Data\Entities\Product.cs" />
+    <Compile Include="Data\Entities\Slider.cs" />
+    <Compile Include="Data\Entities\TeamMember.cs" />
+    <Compile Include="Data\Entities\Testimonial.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -141,10 +163,21 @@
     <Compile Include="Migrations\202601242232507_initial_migration.Designer.cs">
       <DependentUpon>202601242232507_initial_migration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202602092220130_AddNewTablesForIndexPage.cs" />
+    <Compile Include="Migrations\202602092220130_AddNewTablesForIndexPage.Designer.cs">
+      <DependentUpon>202602092220130_AddNewTablesForIndexPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202602092257326_AddIsActiveToProduct.cs" />
+    <Compile Include="Migrations\202602092257326_AddIsActiveToProduct.Designer.cs">
+      <DependentUpon>202602092257326_AddIsActiveToProduct.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\GeminiService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Admin_theme\admin_theme.html" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -177,6 +210,31 @@
     <Content Include="Areas\Admin\Views\Product\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Product\CreateProduct.cshtml" />
     <Content Include="Areas\Admin\Views\Product\UpdateProduct.cshtml" />
+    <Content Include="Areas\Admin\Views\Feature\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Feature\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Feature\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Slider\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Slider\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Slider\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Blog\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Blog\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Blog\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\TeamMember\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\TeamMember\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\TeamMember\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Testimonial\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Testimonial\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Testimonial\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\FAQ\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\FAQ\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\FAQ\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\About\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\About\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\About\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Contact\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Contact\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Contact\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_LayoutAdmin.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -188,6 +246,67 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="UITheme\LifeSure-1.0.0\404.html" />
+    <Content Include="UITheme\LifeSure-1.0.0\about.html" />
+    <Content Include="UITheme\LifeSure-1.0.0\blog.html" />
+    <Content Include="UITheme\LifeSure-1.0.0\contact.html" />
+    <Content Include="UITheme\LifeSure-1.0.0\css\bootstrap.min.css" />
+    <Content Include="UITheme\LifeSure-1.0.0\css\style.css" />
+    <Content Include="UITheme\LifeSure-1.0.0\FAQ.html" />
+    <Content Include="UITheme\LifeSure-1.0.0\feature.html" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\about-1.png" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\bg-breadcrumb.jpg" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\blog-1.png" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\blog-2.png" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\blog-3.png" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\blog-4.png" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\carousel-2.png" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\contact-img.png" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\instagram-footer-1.jpg" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\instagram-footer-2.jpg" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\instagram-footer-3.jpg" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\instagram-footer-4.jpg" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\instagram-footer-5.jpg" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\instagram-footer-6.jpg" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\team-1.jpg" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\team-2.jpg" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\team-3.jpg" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\team-4.jpg" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\testimonial-1.jpg" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\testimonial-2.jpg" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\testimonial-3.jpg" />
+    <Content Include="UITheme\LifeSure-1.0.0\index.html" />
+    <Content Include="UITheme\LifeSure-1.0.0\js\main.js" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\animate\animate.css" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\animate\animate.min.css" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\counterup\counterup.min.js" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\easing\easing.js" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\easing\easing.min.js" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\lightbox\css\lightbox.min.css" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\lightbox\images\close.png" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\lightbox\images\loading.gif" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\lightbox\images\next.png" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\lightbox\images\prev.png" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\lightbox\js\lightbox.min.js" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\owlcarousel\assets\ajax-loader.gif" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\owlcarousel\assets\owl.carousel.css" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\owlcarousel\assets\owl.carousel.min.css" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\owlcarousel\assets\owl.theme.default.css" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\owlcarousel\assets\owl.theme.default.min.css" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\owlcarousel\assets\owl.theme.green.css" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\owlcarousel\assets\owl.theme.green.min.css" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\owlcarousel\assets\owl.video.play.png" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\owlcarousel\owl.carousel.js" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\owlcarousel\owl.carousel.min.js" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\waypoints\waypoints.min.js" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\wow\wow.js" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\wow\wow.min.js" />
+    <Content Include="UITheme\LifeSure-1.0.0\LICENSE.txt" />
+    <Content Include="UITheme\LifeSure-1.0.0\life-insurance-website-template.jpg" />
+    <Content Include="UITheme\LifeSure-1.0.0\READ-ME.txt" />
+    <Content Include="UITheme\LifeSure-1.0.0\service.html" />
+    <Content Include="UITheme\LifeSure-1.0.0\team.html" />
+    <Content Include="UITheme\LifeSure-1.0.0\testimonial.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -202,12 +321,97 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="UITheme\LifeSure-1.0.0\img\Thumbs.db" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\owlcarousel\LICENSE" />
+    <Content Include="UITheme\LifeSure-1.0.0\lib\waypoints\links.php" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\bootstrap-grid.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\bootstrap-reboot.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\bootstrap-utilities.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\bootstrap.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\forms\_floating-labels.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\forms\_form-check.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\forms\_form-control.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\forms\_form-range.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\forms\_form-select.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\forms\_form-text.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\forms\_input-group.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\forms\_labels.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\forms\_validation.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\helpers\_clearfix.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\helpers\_colored-links.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\helpers\_position.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\helpers\_ratio.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\helpers\_stretched-link.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\helpers\_text-truncation.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\helpers\_visually-hidden.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_alert.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_border-radius.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_box-shadow.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_breakpoints.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_buttons.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_caret.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_clearfix.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_color-scheme.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_container.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_deprecate.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_forms.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_gradients.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_grid.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_image.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_list-group.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_lists.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_pagination.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_reset-text.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_resize.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_table-variants.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_text-truncate.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_transition.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_utilities.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\mixins\_visually-hidden.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\utilities\_api.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\vendor\_rfs.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_accordion.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_alert.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_badge.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_breadcrumb.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_button-group.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_buttons.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_card.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_carousel.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_close.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_containers.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_dropdown.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_forms.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_functions.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_grid.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_helpers.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_images.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_list-group.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_mixins.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_modal.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_nav.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_navbar.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_offcanvas.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_pagination.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_popover.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_progress.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_reboot.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_root.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_spinners.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_tables.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_toasts.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_tooltip.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_transitions.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_type.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_utilities.scss" />
+    <Content Include="UITheme\LifeSure-1.0.0\scss\bootstrap\scss\_variables.scss" />
+    <Content Include="Views\Shared\_LayoutFrontend.cshtml" />
+    <Content Include="Web.config.example" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Views\Shared\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -239,6 +443,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202601242232507_initial_migration.resx">
       <DependentUpon>202601242232507_initial_migration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202602092220130_AddNewTablesForIndexPage.resx">
+      <DependentUpon>202602092220130_AddNewTablesForIndexPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202602092257326_AddIsActiveToProduct.resx">
+      <DependentUpon>202602092257326_AddIsActiveToProduct.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

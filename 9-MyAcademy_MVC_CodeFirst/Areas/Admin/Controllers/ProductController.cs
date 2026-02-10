@@ -11,7 +11,7 @@ namespace _9_MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
 
     public class ProductController : Controller
     {
-        AppDbContext context = new AppDbContext();
+        private readonly AppDbContext context = new AppDbContext();
 
         private void GetCategories()
         {
@@ -27,7 +27,7 @@ namespace _9_MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
 
         public ActionResult Index()
         {
-            var products = context.Products.ToList();
+            var products = context.Products.Where(x => x.IsActive).ToList();
             return View(products);
         }
 
@@ -38,11 +38,19 @@ namespace _9_MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CreateProduct(Product product)
         {
-            context.Products.Add(product);
-            context.SaveChanges();
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                product.IsActive = true;
+                context.Products.Add(product);
+                context.SaveChanges();
+                TempData["Success"] = "Product created successfully!";
+                return RedirectToAction(nameof(Index));
+            }
+            GetCategories();
+            return View(product);
         }
 
         public ActionResult UpdateProduct(int id)
@@ -53,29 +61,42 @@ namespace _9_MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UpdateProduct(Product model)
         {
-            var product = context.Products.Find(model.Id);
-            product.Name = model.Name;
-            product.Description = model.Description;
-            product.ImageUrl = model.ImageUrl;
-            product.Price = model.Price;
-            product.CategoryId = model.CategoryId;
-            context.SaveChanges();
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                var product = context.Products.Find(model.Id);
+                product.Name = model.Name;
+                product.Description = model.Description;
+                product.ImageUrl = model.ImageUrl;
+                product.Price = model.Price;
+                product.CategoryId = model.CategoryId;
+                product.IsActive = model.IsActive;
+                context.SaveChanges();
+                TempData["Success"] = "Product updated successfully!";
+                return RedirectToAction(nameof(Index));
+            }
+            GetCategories();
+            return View(model);
         }
 
         public ActionResult DeleteProduct(int id)
         {
             var product = context.Products.Find(id);
-            context.Products.Remove(product);
+            product.IsActive = false;
             context.SaveChanges();
+            TempData["Success"] = "Product deleted successfully!";
             return RedirectToAction(nameof(Index));
         }
 
-
-
-
-
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                context.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

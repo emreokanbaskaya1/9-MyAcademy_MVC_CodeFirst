@@ -25,11 +25,17 @@ namespace _9_MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CreateCategory(Category category)
         {
-            context.Categories.Add(category);
-            context.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                context.Categories.Add(category);
+                context.SaveChanges();
+                TempData["Success"] = "Category created successfully!";
+                return RedirectToAction("Index");
+            }
+            return View(category);
         }
 
         public ActionResult UpdateCategory(int id)
@@ -39,12 +45,18 @@ namespace _9_MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UpdateCategory(Category model) 
         {
-            var category = context.Categories.Find(model.Id);
-            category.Name = model.Name;
-            context.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                var category = context.Categories.Find(model.Id);
+                category.Name = model.Name;
+                context.SaveChanges();
+                TempData["Success"] = "Category updated successfully!";
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
 
         public ActionResult DeleteCategory(int id)
@@ -52,7 +64,17 @@ namespace _9_MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
             var category = context.Categories.Find(id);
             context.Categories.Remove(category);
             context.SaveChanges();
+            TempData["Success"] = "Category deleted successfully!";
             return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                context.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

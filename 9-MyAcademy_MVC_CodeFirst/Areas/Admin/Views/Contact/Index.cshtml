@@ -1,0 +1,128 @@
+@model IEnumerable<_9_MyAcademy_MVC_CodeFirst.Data.Entities.Contact>
+@{
+    ViewBag.Title = "Contact Information";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="bg-emerald-50 dark:bg-emerald-900/20 border-l-4 border-emerald-500 p-4 mb-6 rounded-lg">
+        <div class="flex items-center gap-2 text-emerald-800 dark:text-emerald-300">
+            <span class="material-icons-outlined">check_circle</span>
+            <p class="font-medium">@TempData["Success"]</p>
+        </div>
+    </div>
+}
+
+<div class="flex justify-between items-center mb-6">
+    <p class="text-sm text-gray-500 dark:text-gray-400">Manage company contact information</p>
+    <a href="@Url.Action("Create")" class="bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg shadow-primary/20 flex items-center gap-2">
+        <span class="material-icons-outlined text-lg">add</span>Add Contact Info
+    </a>
+</div>
+
+@if (Model.Any())
+{
+    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-surface-border">
+            <thead class="bg-gray-50 dark:bg-surface-border/30">
+                <tr>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Address</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Email</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Phone</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Social Media</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Status</th>
+                    <th class="px-6 py-4 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-surface-border">
+                @foreach (var item in Model)
+                {
+                    <tr class="hover:bg-gray-50 dark:hover:bg-primary/5 transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="flex items-start gap-2">
+                                <span class="material-icons-outlined text-gray-400 text-sm mt-0.5">location_on</span>
+                                <span class="text-sm text-gray-900 dark:text-white">@item.Address</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-2">
+                                <span class="material-icons-outlined text-gray-400 text-sm">email</span>
+                                <a href="mailto:@item.Email" class="text-sm text-primary hover:underline">@item.Email</a>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-2">
+                                <span class="material-icons-outlined text-gray-400 text-sm">phone</span>
+                                <a href="tel:@item.Phone" class="text-sm text-gray-900 dark:text-white">@item.Phone</a>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-2">
+                                @if (!string.IsNullOrEmpty(item.FacebookUrl))
+                                {
+                                    <a href="@item.FacebookUrl" target="_blank" class="text-blue-600 hover:text-blue-700">
+                                        <i class="fab fa-facebook text-lg"></i>
+                                    </a>
+                                }
+                                @if (!string.IsNullOrEmpty(item.TwitterUrl))
+                                {
+                                    <a href="@item.TwitterUrl" target="_blank" class="text-blue-400 hover:text-blue-500">
+                                        <i class="fab fa-twitter text-lg"></i>
+                                    </a>
+                                }
+                                @if (!string.IsNullOrEmpty(item.InstagramUrl))
+                                {
+                                    <a href="@item.InstagramUrl" target="_blank" class="text-pink-600 hover:text-pink-700">
+                                        <i class="fab fa-instagram text-lg"></i>
+                                    </a>
+                                }
+                                @if (!string.IsNullOrEmpty(item.LinkedInUrl))
+                                {
+                                    <a href="@item.LinkedInUrl" target="_blank" class="text-blue-700 hover:text-blue-800">
+                                        <i class="fab fa-linkedin text-lg"></i>
+                                    </a>
+                                }
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            @if (item.IsActive)
+                            {
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>Active
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-300">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5"></span>Inactive
+                                </span>
+                            }
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="@Url.Action("Edit", new { id = item.Id })" class="text-amber-600 hover:text-amber-700 dark:text-amber-400">
+                                    <span class="material-icons-outlined text-lg">edit</span>
+                                </a>
+                                <a href="@Url.Action("Delete", new { id = item.Id })" onclick="return confirm('Delete?')" class="text-rose-600 hover:text-rose-700 dark:text-rose-400">
+                                    <span class="material-icons-outlined text-lg">delete</span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="bg-white dark:bg-surface-dark rounded-xl p-12 text-center border border-gray-200 dark:border-surface-border">
+        <span class="material-icons-outlined text-6xl text-gray-300 dark:text-gray-600 mb-4">contact_mail</span>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">No contact information found</h3>
+        <p class="text-gray-500 dark:text-gray-400 mb-4">Add your company contact details</p>
+        <a href="@Url.Action("Create")" class="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-6 py-2 rounded-lg">
+            <span class="material-icons-outlined">add</span>Add Contact Info
+        </a>
+    </div>
+}

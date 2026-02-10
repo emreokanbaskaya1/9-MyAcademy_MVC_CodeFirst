@@ -1,0 +1,114 @@
+@model _9_MyAcademy_MVC_CodeFirst.Data.Entities.TeamMember
+
+@{
+    ViewBag.Title = "Edit Team Member";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="max-w-4xl">
+    <div class="mb-6">
+        <a href="@Url.Action("Index")" class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-primary">
+            <span class="material-icons-outlined text-lg mr-1">arrow_back</span>
+            Back to Team Members
+        </a>
+    </div>
+
+    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border overflow-hidden">
+        <div class="p-6">
+            @using (Html.BeginForm("Edit", "TeamMember", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            @Html.LabelFor(model => model.Name, new { @class = "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" })
+                            @Html.TextBoxFor(model => model.Name, new { @class = "block w-full px-4 py-2.5 border border-gray-300 dark:border-surface-border rounded-lg bg-white dark:bg-background-dark text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-primary" })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "mt-1 text-sm text-rose-600 dark:text-rose-400" })
+                        </div>
+
+                        <div>
+                            @Html.LabelFor(model => model.Position, new { @class = "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" })
+                            @Html.TextBoxFor(model => model.Position, new { @class = "block w-full px-4 py-2.5 border border-gray-300 dark:border-surface-border rounded-lg bg-white dark:bg-background-dark text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-primary" })
+                            @Html.ValidationMessageFor(model => model.Position, "", new { @class = "mt-1 text-sm text-rose-600 dark:text-rose-400" })
+                        </div>
+                    </div>
+
+                    <div>
+                        @Html.LabelFor(model => model.ImageUrl, new { @class = "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" })
+                        @Html.TextBoxFor(model => model.ImageUrl, new { @class = "block w-full px-4 py-2.5 border border-gray-300 dark:border-surface-border rounded-lg bg-white dark:bg-background-dark text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-primary" })
+                        @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "mt-1 text-sm text-rose-600 dark:text-rose-400" })
+                    </div>
+
+                    <div class="border-t border-gray-200 dark:border-surface-border pt-6">
+                        <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4 flex items-center gap-2">
+                            <span class="material-icons-outlined">share</span>
+                            Social Media Links
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                @Html.LabelFor(model => model.FacebookUrl, new { @class = "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" })
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fab fa-facebook text-blue-600"></i>
+                                    </div>
+                                    @Html.TextBoxFor(model => model.FacebookUrl, new { @class = "block w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-surface-border rounded-lg bg-white dark:bg-background-dark text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-primary" })
+                                </div>
+                            </div>
+
+                            <div>
+                                @Html.LabelFor(model => model.TwitterUrl, new { @class = "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" })
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fab fa-twitter text-blue-400"></i>
+                                    </div>
+                                    @Html.TextBoxFor(model => model.TwitterUrl, new { @class = "block w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-surface-border rounded-lg bg-white dark:bg-background-dark text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-primary" })
+                                </div>
+                            </div>
+
+                            <div>
+                                @Html.LabelFor(model => model.LinkedInUrl, new { @class = "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" })
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fab fa-linkedin text-blue-700"></i>
+                                    </div>
+                                    @Html.TextBoxFor(model => model.LinkedInUrl, new { @class = "block w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-surface-border rounded-lg bg-white dark:bg-background-dark text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-primary" })
+                                </div>
+                            </div>
+
+                            <div>
+                                @Html.LabelFor(model => model.InstagramUrl, new { @class = "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" })
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fab fa-instagram text-pink-600"></i>
+                                    </div>
+                                    @Html.TextBoxFor(model => model.InstagramUrl, new { @class = "block w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-surface-border rounded-lg bg-white dark:bg-background-dark text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-primary" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 p-4 bg-gray-50 dark:bg-surface-border/30 rounded-lg">
+                        @Html.CheckBoxFor(model => model.IsActive, new { @class = "w-4 h-4 text-primary border-gray-300 dark:border-gray-600 rounded focus:ring-primary" })
+                        @Html.LabelFor(model => model.IsActive, new { @class = "text-sm font-medium text-gray-700 dark:text-gray-300" })
+                    </div>
+                </div>
+
+                <div class="mt-8 flex items-center justify-between pt-6 border-t border-gray-200 dark:border-surface-border">
+                    <a href="@Url.Action("Index")" class="px-6 py-2.5 border border-gray-300 dark:border-surface-border text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-surface-border transition-colors">
+                        Cancel
+                    </a>
+                    <button type="submit" class="px-6 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-medium shadow-lg shadow-amber-600/20 transition-colors inline-flex items-center gap-2">
+                        <span class="material-icons-outlined text-lg">save</span>
+                        Update Team Member
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

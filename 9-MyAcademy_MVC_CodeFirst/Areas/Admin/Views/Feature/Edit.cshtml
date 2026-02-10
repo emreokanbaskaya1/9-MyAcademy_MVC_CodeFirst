@@ -1,0 +1,67 @@
+@model _9_MyAcademy_MVC_CodeFirst.Data.Entities.Feature
+
+@{
+    ViewBag.Title = "Edit Feature";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="max-w-3xl">
+    <div class="mb-6">
+        <a href="@Url.Action("Index")" class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-primary">
+            <span class="material-icons-outlined text-lg mr-1">arrow_back</span>
+            Back to Features
+        </a>
+    </div>
+
+    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border overflow-hidden">
+        <div class="p-6">
+            @using (Html.BeginForm("Edit", "Feature", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="space-y-6">
+                    <div>
+                        @Html.LabelFor(model => model.Icon, new { @class = "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" })
+                        @Html.TextBoxFor(model => model.Icon, new { @class = "block w-full px-4 py-2.5 border border-gray-300 dark:border-surface-border rounded-lg bg-white dark:bg-background-dark text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-primary" })
+                        @Html.ValidationMessageFor(model => model.Icon, "", new { @class = "mt-1 text-sm text-rose-600 dark:text-rose-400" })
+                        <p class="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
+                            Use FontAwesome icon classes. Example: <code class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 rounded">far fa-handshake fa-3x</code>
+                        </p>
+                    </div>
+
+                    <div>
+                        @Html.LabelFor(model => model.Title, new { @class = "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" })
+                        @Html.TextBoxFor(model => model.Title, new { @class = "block w-full px-4 py-2.5 border border-gray-300 dark:border-surface-border rounded-lg bg-white dark:bg-background-dark text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-primary" })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "mt-1 text-sm text-rose-600 dark:text-rose-400" })
+                    </div>
+
+                    <div>
+                        @Html.LabelFor(model => model.Description, new { @class = "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" })
+                        @Html.TextAreaFor(model => model.Description, new { @class = "block w-full px-4 py-2.5 border border-gray-300 dark:border-surface-border rounded-lg bg-white dark:bg-background-dark text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-primary", rows = 4 })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "mt-1 text-sm text-rose-600 dark:text-rose-400" })
+                    </div>
+
+                    <div class="flex items-center gap-3 p-4 bg-gray-50 dark:bg-surface-border/30 rounded-lg">
+                        @Html.CheckBoxFor(model => model.IsActive, new { @class = "w-4 h-4 text-primary border-gray-300 dark:border-gray-600 rounded focus:ring-primary" })
+                        @Html.LabelFor(model => model.IsActive, new { @class = "text-sm font-medium text-gray-700 dark:text-gray-300" })
+                    </div>
+                </div>
+
+                <div class="mt-8 flex items-center justify-between pt-6 border-t border-gray-200 dark:border-surface-border">
+                    <a href="@Url.Action("Index")" class="px-6 py-2.5 border border-gray-300 dark:border-surface-border text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-surface-border transition-colors">
+                        Cancel
+                    </a>
+                    <button type="submit" class="px-6 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-medium shadow-lg shadow-amber-600/20 transition-colors inline-flex items-center gap-2">
+                        <span class="material-icons-outlined text-lg">save</span>
+                        Update Feature
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

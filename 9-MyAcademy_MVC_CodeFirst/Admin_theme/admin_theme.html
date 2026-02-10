@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Claims Processing Queue</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "primary-hover": "#0e6ac9",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "surface-dark": "#18232e", // Slightly lighter than background-dark for cards/sidebar
+                        "surface-border": "#253444", // For borders in dark mode
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for better aesthetic in dark mode */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101922; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #253444; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #374151; 
+        }
+        
+        /* Subtle glassmorphism for floating elements */
+        .glass-panel {
+            background: rgba(24, 35, 46, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-display antialiased h-screen flex overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-64 bg-white dark:bg-surface-dark border-r border-gray-200 dark:border-surface-border flex flex-col flex-shrink-0 z-20">
+<!-- Logo Area -->
+<div class="h-16 flex items-center px-6 border-b border-gray-200 dark:border-surface-border">
+<div class="flex items-center gap-2 text-primary font-bold text-xl">
+<span class="material-icons-outlined text-2xl">shield</span>
+<span>InsureGuard</span>
+</div>
+</div>
+<!-- Navigation -->
+<div class="flex-1 overflow-y-auto py-6 px-3 space-y-1">
+<p class="px-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Main Menu</p>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+<span class="material-icons-outlined text-xl">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+<span class="material-icons-outlined text-xl">description</span>
+                Policies
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium bg-primary/10 text-primary rounded-lg border border-primary/20" href="#">
+<span class="material-icons-outlined text-xl">assignment_late</span>
+                Claims Queue
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-primary/10 hover:text-primary transition-colors" href="#">
+<span class="material-icons-outlined text-xl">people</span>
+                Customers
+            </a>
+<div class="pt-6 pb-2">
+<p class="px-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Filters</p>
+<button class="w-full flex items-center justify-between px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-border transition-colors group">
+<span class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                        Under Review
+                    </span>
+<span class="bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 py-0.5 px-2 rounded-full text-xs font-semibold">12</span>
+</button>
+<button class="w-full flex items-center justify-between px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-border transition-colors group">
+<span class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        Approved
+                    </span>
+<span class="bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 py-0.5 px-2 rounded-full text-xs font-semibold">45</span>
+</button>
+<button class="w-full flex items-center justify-between px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-border transition-colors group">
+<span class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                        Rejected
+                    </span>
+<span class="bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 py-0.5 px-2 rounded-full text-xs font-semibold">3</span>
+</button>
+<button class="w-full flex items-center justify-between px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-surface-border transition-colors group">
+<span class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-slate-400"></span>
+                        Paid
+                    </span>
+<span class="bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 py-0.5 px-2 rounded-full text-xs font-semibold">88</span>
+</button>
+</div>
+</div>
+<!-- User Profile Stub -->
+<div class="p-4 border-t border-gray-200 dark:border-surface-border">
+<div class="flex items-center gap-3">
+<img class="h-9 w-9 rounded-full border-2 border-primary/30" data-alt="Admin user avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBvm-F19UMLNtpsVkPRbhwdv1g2kx8mF4bu3Iv53hYTXFR6k4D63mDO3FJR2cOMB2-TBtEsbai3jcLgtqniPUyY5fCm0LO83MqyBzPj7Mxsr3iRk5LgRBfW2mNDqKDrGQLqb0RhAkJN635Vx8I6FFPpJQTVUcnFDttyA4YYWtTgBbgyFhIdGWK38mmuq3tDbnaT0YCu5FccMWQ0LDqPloduikBnMftJu1mvwUFfsD_ZZ8QwOZAHeviXaIrm5RugnxGd3He4FMJ5iY"/>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-gray-900 dark:text-white truncate">Tom Cook</p>
+<p class="text-xs text-gray-500 dark:text-gray-400 truncate">Claims Manager</p>
+</div>
+<button class="text-gray-400 hover:text-white">
+<span class="material-icons-outlined">logout</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col relative overflow-hidden">
+<!-- Header -->
+<header class="h-16 flex items-center justify-between px-6 bg-white dark:bg-surface-dark border-b border-gray-200 dark:border-surface-border z-10">
+<div class="flex items-center gap-4 w-full">
+<h1 class="text-xl font-semibold text-gray-900 dark:text-white whitespace-nowrap">Claims Queue</h1>
+<!-- Search Bar -->
+<div class="relative max-w-md w-full ml-4">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-icons-outlined text-gray-400">search</span>
+</span>
+<input class="block w-full pl-10 pr-3 py-2 border border-gray-200 dark:border-surface-border rounded-lg leading-5 bg-gray-50 dark:bg-background-dark text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm" placeholder="Search by Claim ID, Name or Type..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3 flex-shrink-0">
+<button class="p-2 text-gray-400 hover:text-primary transition-colors relative">
+<span class="material-icons-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-500 border-2 border-white dark:border-surface-dark"></span>
+</button>
+<button class="bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg shadow-primary/20 flex items-center gap-2 transition-colors">
+<span class="material-icons-outlined text-lg">add</span>
+                    New Claim
+                </button>
+</div>
+</header>
+<!-- Queue Content -->
+<div class="flex-1 overflow-auto p-6 scroll-smooth">
+<!-- Stats Overview (Optional context above table) -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+<div class="bg-white dark:bg-surface-dark p-4 rounded-lg border border-gray-200 dark:border-surface-border shadow-sm">
+<div class="flex items-center justify-between">
+<div class="text-sm font-medium text-gray-500 dark:text-gray-400">New Today</div>
+<span class="material-icons-outlined text-primary text-xl">schedule</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-2xl font-bold text-gray-900 dark:text-white">18</span>
+<span class="text-xs text-green-500 font-medium">+12%</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-4 rounded-lg border border-gray-200 dark:border-surface-border shadow-sm">
+<div class="flex items-center justify-between">
+<div class="text-sm font-medium text-gray-500 dark:text-gray-400">Processing Value</div>
+<span class="material-icons-outlined text-primary text-xl">paid</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-2xl font-bold text-gray-900 dark:text-white">$142.5k</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-4 rounded-lg border border-gray-200 dark:border-surface-border shadow-sm">
+<div class="flex items-center justify-between">
+<div class="text-sm font-medium text-gray-500 dark:text-gray-400">Avg. Resolution</div>
+<span class="material-icons-outlined text-primary text-xl">timelapse</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-2xl font-bold text-gray-900 dark:text-white">4.2 Days</span>
+<span class="text-xs text-emerald-500 font-medium">-0.5d</span>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-4 rounded-lg border border-gray-200 dark:border-surface-border shadow-sm">
+<div class="flex items-center justify-between">
+<div class="text-sm font-medium text-gray-500 dark:text-gray-400">Fraud Flagged</div>
+<span class="material-icons-outlined text-rose-500 text-xl">warning</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-2xl font-bold text-gray-900 dark:text-white">2</span>
+<span class="text-xs text-gray-500 font-medium">Require Review</span>
+</div>
+</div>
+</div>
+<!-- Table Card -->
+<div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border overflow-hidden">
+<div class="min-w-full inline-block align-middle">
+<div class="overflow-hidden">
+<table class="min-w-full divide-y divide-gray-200 dark:divide-surface-border">
+<thead class="bg-gray-50 dark:bg-surface-border/30">
+<tr>
+<th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider w-10" scope="col">
+<input class="rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+</th>
+<th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider" scope="col">Claim Details</th>
+<th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider" scope="col">Policyholder</th>
+<th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider" scope="col">Date</th>
+<th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider" scope="col">Est. Amount</th>
+<th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider" scope="col">Status</th>
+<th class="px-6 py-4 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider" scope="col"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-200 dark:divide-surface-border">
+<!-- Row 1: Under Review -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-primary/5 transition-colors cursor-pointer">
+<td class="px-6 py-4 whitespace-nowrap">
+<input class="rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-start flex-col">
+<a class="text-sm font-semibold text-primary hover:text-primary-hover hover:underline" href="#">CLM-2023-8492</a>
+<div class="text-xs text-gray-500 dark:text-gray-400 mt-1 flex items-center gap-1">
+<span class="material-icons-outlined text-[14px]">directions_car</span>
+                                                Auto - Collision
+                                            </div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="h-8 w-8 rounded-full bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center text-xs text-white font-bold" title="Sarah Jenkins">SJ</div>
+<div class="ml-3">
+<div class="text-sm font-medium text-gray-900 dark:text-white">Sarah Jenkins</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Pol: #A-93812</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        Oct 24, 2023
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                                        $4,500.00
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5"></span>
+                                            Under Review
+                                        </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-gray-400 hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-icons-outlined">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 2: Under Review -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-primary/5 transition-colors cursor-pointer bg-primary/5 dark:bg-primary/5 border-l-2 border-l-primary">
+<td class="px-6 py-4 whitespace-nowrap">
+<input class="rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-start flex-col">
+<a class="text-sm font-semibold text-primary hover:text-primary-hover hover:underline" href="#">CLM-2023-8511</a>
+<div class="text-xs text-gray-500 dark:text-gray-400 mt-1 flex items-center gap-1">
+<span class="material-icons-outlined text-[14px]">house</span>
+                                                Home - Water Damage
+                                            </div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<img alt="" class="h-8 w-8 rounded-full object-cover" data-alt="Portrait of Michael Chen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7PQHDflQCU3TCaQCrnyjxjpCt1mEcK9nm8sWtXfRJf0K5BLwuqdzgbk2zadrIoII_gBAVJ0Z96PJLyGUjPj4dQOSY6OlUlPzv-MeV2arb7bGPoivCKMGYhGSXIaJwk2zF7IW1s1FxHVkLx-Bclq5rCBrE8YUg8YtQjL3CmO_1gd-6GKZYgHlhq_gJD5QeKqX7hR3oM287btYotqkSFp17ubpnW5P4qxWgg27DPz04khAxD8zBwUonBlATD-sgljaQSklgnRQAWfI"/>
+<div class="ml-3">
+<div class="text-sm font-medium text-gray-900 dark:text-white">Michael Chen</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Pol: #H-22019</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        Oct 23, 2023
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                                        $12,350.00
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5"></span>
+                                            Assessment
+                                        </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-gray-400 hover:text-primary transition-colors opacity-100 group-hover:opacity-100">
+<span class="material-icons-outlined">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 3: Approved -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-primary/5 transition-colors cursor-pointer">
+<td class="px-6 py-4 whitespace-nowrap">
+<input class="rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-start flex-col">
+<a class="text-sm font-semibold text-primary hover:text-primary-hover hover:underline" href="#">CLM-2023-8302</a>
+<div class="text-xs text-gray-500 dark:text-gray-400 mt-1 flex items-center gap-1">
+<span class="material-icons-outlined text-[14px]">health_and_safety</span>
+                                                Medical - Routine
+                                            </div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="h-8 w-8 rounded-full bg-slate-600 flex items-center justify-center text-xs text-white font-bold" title="David Miller">DM</div>
+<div class="ml-3">
+<div class="text-sm font-medium text-gray-900 dark:text-white">David Miller</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Pol: #M-00342</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        Oct 21, 2023
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                                        $240.00
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>
+                                            Approved
+                                        </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-gray-400 hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-icons-outlined">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 4: Rejected -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-primary/5 transition-colors cursor-pointer">
+<td class="px-6 py-4 whitespace-nowrap">
+<input class="rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-start flex-col">
+<a class="text-sm font-semibold text-primary hover:text-primary-hover hover:underline" href="#">CLM-2023-8109</a>
+<div class="text-xs text-gray-500 dark:text-gray-400 mt-1 flex items-center gap-1">
+<span class="material-icons-outlined text-[14px]">flight_takeoff</span>
+                                                Travel - Delay
+                                            </div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<img alt="" class="h-8 w-8 rounded-full object-cover" data-alt="Portrait of Erica Walters" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfmtb-UwiiykW7naMXyiJ8dQ_TDarqHy9mv-FhS1snyVzPIhqdizvbt8k-DuyVP2rIyJUbI4o7-mDSt_xtFwIbYlzu1j5buQnQw-J05pHJD8I9QddnmWprfiXJQY38iEB569kW6VYZdlQMX5h3fIxU-KFW2EVgnzaQ04F1c6uJhodmLusEngdzk-gwVdJ0L2YyiMoscOdlpgte9aaXo6PD3Rkw4aIGf2vfMgz6XabqNVll3zrYwC1WKlrZ3gC1BUaQq5xb807ZB2g"/>
+<div class="ml-3">
+<div class="text-sm font-medium text-gray-900 dark:text-white">Erica Walters</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Pol: #T-99210</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        Oct 19, 2023
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                                        $800.00
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-300 border border-rose-200 dark:border-rose-800">
+<span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5"></span>
+                                            Rejected
+                                        </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-gray-400 hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-icons-outlined">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 5: Paid -->
+<tr class="group hover:bg-gray-50 dark:hover:bg-primary/5 transition-colors cursor-pointer opacity-70 hover:opacity-100">
+<td class="px-6 py-4 whitespace-nowrap">
+<input class="rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary bg-transparent" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-start flex-col">
+<a class="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-primary hover:underline decoration-dashed" href="#">CLM-2023-7800</a>
+<div class="text-xs text-gray-500 dark:text-gray-400 mt-1 flex items-center gap-1">
+<span class="material-icons-outlined text-[14px]">pets</span>
+                                                Pet - Surgery
+                                            </div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="h-8 w-8 rounded-full bg-gradient-to-br from-pink-500 to-orange-400 flex items-center justify-center text-xs text-white font-bold" title="James Wilson">JW</div>
+<div class="ml-3">
+<div class="text-sm font-medium text-gray-900 dark:text-white">James Wilson</div>
+<div class="text-xs text-gray-500 dark:text-gray-400">Pol: #P-11234</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        Oct 15, 2023
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                                        $1,200.00
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-700/50 dark:text-slate-300 border border-slate-200 dark:border-slate-600">
+                                            Paid
+                                        </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-gray-400 hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-icons-outlined">chevron_right</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Pagination -->
+<div class="bg-white dark:bg-surface-dark px-4 py-3 flex items-center justify-between border-t border-gray-200 dark:border-surface-border sm:px-6">
+<div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+<div>
+<p class="text-sm text-gray-700 dark:text-gray-300">
+                                Showing <span class="font-medium text-primary">1</span> to <span class="font-medium text-primary">5</span> of <span class="font-medium text-primary">148</span> results
+                            </p>
+</div>
+<div>
+<nav aria-label="Pagination" class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+<a class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 dark:border-surface-border bg-white dark:bg-background-dark text-sm font-medium text-gray-500 hover:bg-gray-50 dark:hover:bg-primary/10" href="#">
+<span class="sr-only">Previous</span>
+<span class="material-icons-outlined text-sm">chevron_left</span>
+</a>
+<a aria-current="page" class="z-10 bg-primary/10 border-primary text-primary relative inline-flex items-center px-4 py-2 border text-sm font-medium" href="#">
+                                    1
+                                </a>
+<a class="bg-white dark:bg-background-dark border-gray-300 dark:border-surface-border text-gray-500 hover:bg-gray-50 dark:hover:bg-primary/10 relative inline-flex items-center px-4 py-2 border text-sm font-medium" href="#">
+                                    2
+                                </a>
+<a class="bg-white dark:bg-background-dark border-gray-300 dark:border-surface-border text-gray-500 hover:bg-gray-50 dark:hover:bg-primary/10 relative inline-flex items-center px-4 py-2 border text-sm font-medium" href="#">
+                                    3
+                                </a>
+<a class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 dark:border-surface-border bg-white dark:bg-background-dark text-sm font-medium text-gray-500 hover:bg-gray-50 dark:hover:bg-primary/10" href="#">
+<span class="sr-only">Next</span>
+<span class="material-icons-outlined text-sm">chevron_right</span>
+</a>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Slide-over Drawer (Simulating "Open" state for the highlighted row) -->
+<aside class="w-96 glass-panel border-l border-surface-border z-30 shadow-2xl flex flex-col relative">
+<div class="flex items-center justify-between p-6 border-b border-surface-border bg-surface-dark">
+<div>
+<h2 class="text-lg font-semibold text-white">Claim Details</h2>
+<span class="text-xs text-gray-400">ID: CLM-2023-8511</span>
+</div>
+<button class="text-gray-400 hover:text-white transition-colors">
+<span class="material-icons-outlined">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-6">
+<!-- Key Details -->
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20 uppercase tracking-wide">
+                        In Assessment
+                    </span>
+<span class="text-sm text-gray-400">2 days ago</span>
+</div>
+<h3 class="text-2xl font-bold text-white">$12,350.00</h3>
+<p class="text-sm text-gray-400 leading-relaxed">
+                    Extensive water damage to basement flooring and drywall due to burst pipe during freezing temperatures.
+                </p>
+</div>
+<!-- Incident Location Map Placeholder -->
+<div class="rounded-lg overflow-hidden border border-surface-border h-40 bg-gray-800 relative">
+<img class="w-full h-full object-cover opacity-60" data-alt="Abstract map background showing city streets" data-location="Seattle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVk_WV-IQhlz8KoTG4v1WB_VdID4LgzY1LXuG8rtA_mfyrYKarOrdLDyRanHZq0S1GGZreOrhZbhrfUtkbUOFB-vBbX9Ch-IRAGAl9qzeSebgVEvSorOvruMEusvHv1NZAY3nLCjTE9lm7-hEJmhPm08SPebBzNMRY-6BAM4_qU5HsmV3DCKDv0-8EM6HVxpthxdS_Of3oWZKHZbChSPU-3aVYKymQ7pkBU7j1Yrhnt78yf9CZlequRtYRibMSuVHiNItPAGGnzuk"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="bg-primary/90 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg flex items-center gap-1">
+<span class="material-icons-outlined text-sm">location_on</span>
+                        142 Evergreen Terrace
+                    </div>
+</div>
+</div>
+<!-- Policyholder Info Card -->
+<div class="bg-surface-dark border border-surface-border rounded-lg p-4">
+<h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Policyholder</h4>
+<div class="flex items-center gap-3">
+<img class="h-10 w-10 rounded-full object-cover" data-alt="Portrait of Michael Chen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuClS9Z4EbfyqeYKwzKr8uD3qSHDNFO7NVMLEiKIp2K7EIMX56la_hC1dq4i0t7xvWBiRH1xk-fJLsHhaJEy3_MIhVGxcS0h1-Peok31CwGy-O_dE4CZ7eR1rEFhCZw9A7ojfvTNpEaqpnlz6h8EkH4rOwzPNAjIvmkoQJYvo3ptIso7RKlxfURzTMGUCtQhsqrXulyEaeVYQp3x2UjGuSdAefx_LjP2KMxkDPXeCAHGTPPhYL6yKf7OU_cveiWz_Tj21Wj5MDViXDw"/>
+<div>
+<div class="text-sm font-medium text-white">Michael Chen</div>
+<div class="text-xs text-primary">Platinum Member</div>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-surface-border grid grid-cols-2 gap-2 text-xs">
+<div>
+<span class="block text-gray-500">Phone</span>
+<span class="text-gray-300">+1 (555) 012-3456</span>
+</div>
+<div>
+<span class="block text-gray-500">Policy</span>
+<span class="text-gray-300">Home Protection Plus</span>
+</div>
+</div>
+</div>
+<!-- Documentation -->
+<div>
+<h4 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Evidence</h4>
+<div class="grid grid-cols-2 gap-2">
+<div class="aspect-square bg-gray-800 rounded-lg border border-surface-border flex flex-col items-center justify-center hover:bg-gray-700 cursor-pointer transition-colors group">
+<span class="material-icons-outlined text-gray-400 group-hover:text-white mb-1">image</span>
+<span class="text-xs text-gray-500 group-hover:text-gray-300">IMG_001.jpg</span>
+</div>
+<div class="aspect-square bg-gray-800 rounded-lg border border-surface-border flex flex-col items-center justify-center hover:bg-gray-700 cursor-pointer transition-colors group">
+<span class="material-icons-outlined text-gray-400 group-hover:text-white mb-1">description</span>
+<span class="text-xs text-gray-500 group-hover:text-gray-300">Report.pdf</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sticky Actions Footer -->
+<div class="p-4 border-t border-surface-border bg-surface-dark space-y-3">
+<button class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-lg text-sm font-medium shadow-lg shadow-emerald-900/20 transition-colors">
+                Approve Claim
+            </button>
+<div class="grid grid-cols-2 gap-3">
+<button class="w-full bg-surface-border hover:bg-gray-600 text-white py-2 rounded-lg text-sm font-medium transition-colors">
+                    Request Info
+                </button>
+<button class="w-full bg-transparent border border-rose-500/50 text-rose-500 hover:bg-rose-500/10 py-2 rounded-lg text-sm font-medium transition-colors">
+                    Reject
+                </button>
+</div>
+</div>
+</aside>
+</body></html>
