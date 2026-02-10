@@ -24,7 +24,7 @@ namespace _9_MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
 
             var result = await _tavilyService.SearchWeb(query);
             ViewBag.Query = query;
-            ViewBag.Result = result;
+            ViewBag.SearchResult = result;
 
             return View("Index");
         }
