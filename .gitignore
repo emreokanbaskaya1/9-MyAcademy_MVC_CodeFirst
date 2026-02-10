@@ -361,3 +361,33 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# ============================================
+# CUSTOM: Sensitive Configuration Files
+# ============================================
+
+# Web.config with sensitive data (API keys, connection strings)
+**/Web.config
+**/Web.*.config
+
+# App.config with sensitive data
+**/App.config
+
+# Local development settings
+appsettings.Development.json
+appsettings.Local.json
+
+# User secrets (though not used in .NET Framework, keep for safety)
+secrets.json
+**/secrets.json
+
+# Environment-specific configs
+*.Production.config
+*.Staging.config
+
+# Database files
+*.mdf
+*.ldf
+*.ndf
+App_Data/*.mdf
+App_Data/*.ldf
