@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using _9_MyAcademy_MVC_CodeFirst.Data.Context;
+using _9_MyAcademy_MVC_CodeFirst.Data.Entities;
 using _9_MyAcademy_MVC_CodeFirst.Models;
 using _9_MyAcademy_MVC_CodeFirst.Services;
 
@@ -50,9 +51,30 @@ namespace _9_MyAcademy_MVC_CodeFirst.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            var viewModel = new ContactViewModel
+            {
+                ContactInfo = _context.Contacts.FirstOrDefault(x => x.IsActive),
+                Message = new ContactMessage()
+            };
+            return View(viewModel);
+        }
 
-            return View();
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Contact(ContactViewModel model)
+        {
+            if (ModelState.IsValid && model.Message != null)
+            {
+                model.Message.CreatedDate = DateTime.Now;
+                model.Message.IsRead = false;
+                _context.ContactMessages.Add(model.Message);
+                _context.SaveChanges();
+                TempData["Success"] = "Your message has been sent successfully!";
+                return RedirectToAction("Contact");
+            }
+
+            model.ContactInfo = _context.Contacts.FirstOrDefault(x => x.IsActive);
+            return View(model);
         }
 
         protected override void Dispose(bool disposing)

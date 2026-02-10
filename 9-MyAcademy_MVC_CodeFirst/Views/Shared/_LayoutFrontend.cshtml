@@ -1,4 +1,3 @@
-@model _9_MyAcademy_MVC_CodeFirst.Models.HomeViewModel
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,8 +47,8 @@
                             <a href="#" class="text-muted small"><i class="fas fa-map-marker-alt text-primary me-2"></i>Find A Location</a>
                         </div>
                         <div class="ps-3">
-                            <a href="mailto:@(Model?.ContactInfo?.Email ?? "example@gmail.com")" class="text-muted small">
-                                <i class="fas fa-envelope text-primary me-2"></i>@(Model?.ContactInfo?.Email ?? "example@gmail.com")
+                            <a href="mailto:info@lifesure.com" class="text-muted small">
+                                <i class="fas fa-envelope text-primary me-2"></i>info@lifesure.com
                             </a>
                         </div>
                     </div>
@@ -57,32 +56,10 @@
                 <div class="col-lg-4 text-center text-lg-end">
                     <div class="d-flex justify-content-end">
                         <div class="d-flex border-end border-primary pe-3">
-                            @if (Model?.ContactInfo != null)
-                            {
-                                if (!string.IsNullOrEmpty(Model.ContactInfo.FacebookUrl))
-                                {
-                                    <a class="btn p-0 text-primary me-3" href="@Model.ContactInfo.FacebookUrl"><i class="fab fa-facebook-f"></i></a>
-                                }
-                                if (!string.IsNullOrEmpty(Model.ContactInfo.TwitterUrl))
-                                {
-                                    <a class="btn p-0 text-primary me-3" href="@Model.ContactInfo.TwitterUrl"><i class="fab fa-twitter"></i></a>
-                                }
-                                if (!string.IsNullOrEmpty(Model.ContactInfo.InstagramUrl))
-                                {
-                                    <a class="btn p-0 text-primary me-3" href="@Model.ContactInfo.InstagramUrl"><i class="fab fa-instagram"></i></a>
-                                }
-                                if (!string.IsNullOrEmpty(Model.ContactInfo.LinkedInUrl))
-                                {
-                                    <a class="btn p-0 text-primary me-0" href="@Model.ContactInfo.LinkedInUrl"><i class="fab fa-linkedin-in"></i></a>
-                                }
-                            }
-                            else
-                            {
-                                <a class="btn p-0 text-primary me-3" href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn p-0 text-primary me-3" href="#"><i class="fab fa-twitter"></i></a>
-                                <a class="btn p-0 text-primary me-3" href="#"><i class="fab fa-instagram"></i></a>
-                                <a class="btn p-0 text-primary me-0" href="#"><i class="fab fa-linkedin-in"></i></a>
-                            }
+                            <a class="btn p-0 text-primary me-3" href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn p-0 text-primary me-3" href="#"><i class="fab fa-twitter"></i></a>
+                            <a class="btn p-0 text-primary me-3" href="#"><i class="fab fa-instagram"></i></a>
+                            <a class="btn p-0 text-primary me-0" href="#"><i class="fab fa-linkedin-in"></i></a>
                         </div>
                         <div class="dropdown ms-3">
                             <a href="#" class="dropdown-toggle text-dark" data-bs-toggle="dropdown"><small><i class="fas fa-globe-europe text-primary me-2"></i> English</small></a>
@@ -130,7 +107,7 @@
                     </a>
                     <div class="d-flex flex-column ms-3">
                         <span>Call to Our Experts</span>
-                        <a href="tel:@(Model?.ContactInfo?.Phone ?? "+0123456789")"><span class="text-dark">Free: @(Model?.ContactInfo?.Phone ?? "+ 0123 456 7890")</span></a>
+                        <a href="tel:+0123456789"><span class="text-dark">Free: + 0123 456 7890</span></a>
                     </div>
                 </div>
             </nav>
@@ -173,13 +150,10 @@
                                     </a>
                                     <p class="text-white mb-4">Your trusted partner in life insurance solutions.</p>
                                     <div class="footer-btn d-flex">
-                                        @if (Model?.ContactInfo != null)
-                                        {
-                                            if (!string.IsNullOrEmpty(Model.ContactInfo.FacebookUrl)) { <a class="btn btn-md-square rounded-circle me-3" href="@Model.ContactInfo.FacebookUrl"><i class="fab fa-facebook-f"></i></a> }
-                                            if (!string.IsNullOrEmpty(Model.ContactInfo.TwitterUrl)) { <a class="btn btn-md-square rounded-circle me-3" href="@Model.ContactInfo.TwitterUrl"><i class="fab fa-twitter"></i></a> }
-                                            if (!string.IsNullOrEmpty(Model.ContactInfo.InstagramUrl)) { <a class="btn btn-md-square rounded-circle me-3" href="@Model.ContactInfo.InstagramUrl"><i class="fab fa-instagram"></i></a> }
-                                            if (!string.IsNullOrEmpty(Model.ContactInfo.LinkedInUrl)) { <a class="btn btn-md-square rounded-circle me-0" href="@Model.ContactInfo.LinkedInUrl"><i class="fab fa-linkedin-in"></i></a> }
-                                        }
+                                        <a class="btn btn-md-square rounded-circle me-3" href="#"><i class="fab fa-facebook-f"></i></a>
+                                        <a class="btn btn-md-square rounded-circle me-3" href="#"><i class="fab fa-twitter"></i></a>
+                                        <a class="btn btn-md-square rounded-circle me-3" href="#"><i class="fab fa-instagram"></i></a>
+                                        <a class="btn btn-md-square rounded-circle me-0" href="#"><i class="fab fa-linkedin-in"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -207,7 +181,7 @@
                                             </div>
                                             <div>
                                                 <h4 class="text-white">Address</h4>
-                                                <p class="mb-0">@(Model?.ContactInfo?.Address ?? "123 Street New York, USA")</p>
+                                                <p class="mb-0">123 Street New York, USA</p>
                                             </div>
                                         </div>
                                     </div>
@@ -218,7 +192,7 @@
                                             </div>
                                             <div>
                                                 <h4 class="text-white">Mail Us</h4>
-                                                <p class="mb-0">@(Model?.ContactInfo?.Email ?? "info@example.com")</p>
+                                                <p class="mb-0">info@lifesure.com</p>
                                             </div>
                                         </div>
                                     </div>
@@ -229,7 +203,7 @@
                                             </div>
                                             <div>
                                                 <h4 class="text-white">Telephone</h4>
-                                                <p class="mb-0">@(Model?.ContactInfo?.Phone ?? "(+012) 3456 7890")</p>
+                                                <p class="mb-0">(+012) 3456 7890</p>
                                             </div>
                                         </div>
                                     </div>

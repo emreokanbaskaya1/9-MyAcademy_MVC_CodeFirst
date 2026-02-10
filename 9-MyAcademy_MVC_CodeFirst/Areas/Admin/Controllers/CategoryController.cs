@@ -1,70 +1,76 @@
 ﻿using _9_MyAcademy_MVC_CodeFirst.Data.Context;
 using _9_MyAcademy_MVC_CodeFirst.Data.Entities;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace _9_MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
 {
-    
     public class CategoryController : Controller
     {
-        AppDbContext context = new AppDbContext();
+        private readonly AppDbContext _context = new AppDbContext();
 
         public ActionResult Index()
         {
-            var categories = context.Categories.ToList();
+            var categories = _context.Categories.ToList();
             return View(categories);
         }
 
-        public ActionResult CreateCategory()
+        public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateCategory(Category category)
+        public ActionResult Create(Category category)
         {
             if (ModelState.IsValid)
             {
-                context.Categories.Add(category);
-                context.SaveChanges();
+                _context.Categories.Add(category);
+                _context.SaveChanges();
                 TempData["Success"] = "Category created successfully!";
                 return RedirectToAction("Index");
             }
             return View(category);
         }
 
-        public ActionResult UpdateCategory(int id)
+        public ActionResult Edit(int id)
         {
-            var value = context.Categories.Find(id);
-            return View(value);
+            var category = _context.Categories.Find(id);
+            if (category == null)
+            {
+                return HttpNotFound();
+            }
+            return View(category);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateCategory(Category model) 
+        public ActionResult Edit(Category model) 
         {
             if (ModelState.IsValid)
             {
-                var category = context.Categories.Find(model.Id);
-                category.Name = model.Name;
-                context.SaveChanges();
-                TempData["Success"] = "Category updated successfully!";
-                return RedirectToAction("Index");
+                var category = _context.Categories.Find(model.Id);
+                if (category != null)
+                {
+                    category.Name = model.Name;
+                    _context.SaveChanges();
+                    TempData["Success"] = "Category updated successfully!";
+                    return RedirectToAction("Index");
+                }
             }
             return View(model);
         }
 
-        public ActionResult DeleteCategory(int id)
+        public ActionResult Delete(int id)
         {
-            var category = context.Categories.Find(id);
-            context.Categories.Remove(category);
-            context.SaveChanges();
-            TempData["Success"] = "Category deleted successfully!";
+            var category = _context.Categories.Find(id);
+            if (category != null)
+            {
+                _context.Categories.Remove(category);
+                _context.SaveChanges();
+                TempData["Success"] = "Category deleted successfully!";
+            }
             return RedirectToAction("Index");
         }
 
@@ -72,7 +78,7 @@ namespace _9_MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
         {
             if (disposing)
             {
-                context.Dispose();
+                _context.Dispose();
             }
             base.Dispose(disposing);
         }

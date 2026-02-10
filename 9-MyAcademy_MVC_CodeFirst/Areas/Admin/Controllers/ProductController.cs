@@ -1,37 +1,32 @@
 ﻿using _9_MyAcademy_MVC_CodeFirst.Data.Context;
 using _9_MyAcademy_MVC_CodeFirst.Data.Entities;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace _9_MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
 {
-
     public class ProductController : Controller
     {
-        private readonly AppDbContext context = new AppDbContext();
+        private readonly AppDbContext _context = new AppDbContext();
 
         private void GetCategories()
         {
-            var categories = context.Categories.ToList();
+            var categories = _context.Categories.ToList();
             ViewBag.categories = (from category in categories
                                   select new SelectListItem
                                   {
                                       Text = category.Name,
-                                      Value= category.Id.ToString()
+                                      Value = category.Id.ToString()
                                   }).ToList();
         }
 
-
         public ActionResult Index()
         {
-            var products = context.Products.Where(x => x.IsActive).ToList();
+            var products = _context.Products.Where(x => x.IsActive).ToList();
             return View(products);
         }
 
-        public ActionResult CreateProduct()
+        public ActionResult Create()
         {
             GetCategories();
             return View();
@@ -39,62 +34,72 @@ namespace _9_MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateProduct(Product product)
+        public ActionResult Create(Product product)
         {
             if (ModelState.IsValid)
             {
                 product.IsActive = true;
-                context.Products.Add(product);
-                context.SaveChanges();
+                _context.Products.Add(product);
+                _context.SaveChanges();
                 TempData["Success"] = "Product created successfully!";
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
             GetCategories();
             return View(product);
         }
 
-        public ActionResult UpdateProduct(int id)
+        public ActionResult Edit(int id)
         {
             GetCategories();
-            var product = context.Products.Find(id);
+            var product = _context.Products.Find(id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
             return View(product);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateProduct(Product model)
+        public ActionResult Edit(Product model)
         {
             if (ModelState.IsValid)
             {
-                var product = context.Products.Find(model.Id);
-                product.Name = model.Name;
-                product.Description = model.Description;
-                product.ImageUrl = model.ImageUrl;
-                product.Price = model.Price;
-                product.CategoryId = model.CategoryId;
-                product.IsActive = model.IsActive;
-                context.SaveChanges();
-                TempData["Success"] = "Product updated successfully!";
-                return RedirectToAction(nameof(Index));
+                var product = _context.Products.Find(model.Id);
+                if (product != null)
+                {
+                    product.Name = model.Name;
+                    product.Description = model.Description;
+                    product.ImageUrl = model.ImageUrl;
+                    product.Price = model.Price;
+                    product.CategoryId = model.CategoryId;
+                    product.IsActive = model.IsActive;
+                    _context.SaveChanges();
+                    TempData["Success"] = "Product updated successfully!";
+                    return RedirectToAction("Index");
+                }
             }
             GetCategories();
             return View(model);
         }
 
-        public ActionResult DeleteProduct(int id)
+        public ActionResult Delete(int id)
         {
-            var product = context.Products.Find(id);
-            product.IsActive = false;
-            context.SaveChanges();
-            TempData["Success"] = "Product deleted successfully!";
-            return RedirectToAction(nameof(Index));
+            var product = _context.Products.Find(id);
+            if (product != null)
+            {
+                product.IsActive = false;
+                _context.SaveChanges();
+                TempData["Success"] = "Product deleted successfully!";
+            }
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                context.Dispose();
+                _context.Dispose();
             }
             base.Dispose(disposing);
         }

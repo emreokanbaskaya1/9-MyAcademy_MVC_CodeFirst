@@ -1,0 +1,55 @@
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+    <!-- Total Categories -->
+    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-6">
+        <div class="flex items-center justify-between mb-4">
+            <div class="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                <span class="material-icons-outlined text-blue-600 dark:text-blue-400 text-2xl">category</span>
+            </div>
+            <span class="text-3xl font-bold text-gray-900 dark:text-white">@ViewBag.TotalCategories</span>
+        </div>
+        <h3 class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Categories</h3>
+    </div>
+
+    <!-- Total Products -->
+    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-6">
+        <div class="flex items-center justify-between mb-4">
+            <div class="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
+                <span class="material-icons-outlined text-emerald-600 dark:text-emerald-400 text-2xl">inventory</span>
+            </div>
+            <span class="text-3xl font-bold text-gray-900 dark:text-white">@ViewBag.TotalProducts</span>
+        </div>
+        <h3 class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Products</h3>
+    </div>
+
+    <!-- Total Blogs -->
+    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-6">
+        <div class="flex items-center justify-between mb-4">
+            <div class="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                <span class="material-icons-outlined text-purple-600 dark:text-purple-400 text-2xl">article</span>
+            </div>
+            <span class="text-3xl font-bold text-gray-900 dark:text-white">@ViewBag.TotalBlogs</span>
+        </div>
+        <h3 class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Blogs</h3>
+    </div>
+
+    <!-- Total Testimonials -->
+    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-6">
+        <div class="flex items-center justify-between mb-4">
+            <div class="p-3 bg-amber-100 dark:bg-amber-900/30 rounded-lg">
+                <span class="material-icons-outlined text-amber-600 dark:text-amber-400 text-2xl">rate_review</span>
+            </div>
+            <span class="text-3xl font-bold text-gray-900 dark:text-white">@ViewBag.TotalTestimonials</span>
+        </div>
+        <h3 class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Testimonials</h3>
+    </div>
+</div>
+
+<div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-6">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Welcome to LifeSure Admin Panel</h2>
+    <p class="text-gray-600 dark:text-gray-400">Manage your insurance platform from this dashboard.</p>
+</div>

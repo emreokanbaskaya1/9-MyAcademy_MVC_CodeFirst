@@ -1,0 +1,88 @@
+@model IEnumerable<_9_MyAcademy_MVC_CodeFirst.Data.Entities.ContactMessage>
+@{
+    ViewBag.Title = "Contact Messages";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="bg-emerald-50 dark:bg-emerald-900/20 border-l-4 border-emerald-500 p-4 mb-6 rounded-lg">
+        <div class="flex items-center gap-2 text-emerald-800 dark:text-emerald-300">
+            <span class="material-icons-outlined">check_circle</span>
+            <p class="font-medium">@TempData["Success"]</p>
+        </div>
+    </div>
+}
+
+<div class="flex justify-between items-center mb-6">
+    <p class="text-sm text-gray-500 dark:text-gray-400">View and manage contact messages from customers</p>
+</div>
+
+@if (Model.Any())
+{
+    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-surface-border">
+            <thead class="bg-gray-50 dark:bg-surface-border/30">
+                <tr>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Status</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Name</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Email</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Subject</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Date</th>
+                    <th class="px-6 py-4 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-surface-border">
+                @foreach (var item in Model)
+                {
+                    <tr class="hover:bg-gray-50 dark:hover:bg-primary/5 transition-colors @(!item.IsRead ? "bg-blue-50 dark:bg-blue-900/10" : "")">
+                        <td class="px-6 py-4">
+                            @if (!item.IsRead)
+                            {
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5"></span>New
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-gray-500 mr-1.5"></span>Read
+                                </span>
+                            }
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="text-sm font-semibold text-gray-900 dark:text-white">@item.Name</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="text-sm text-gray-600 dark:text-gray-400">@item.Email</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="text-sm text-gray-900 dark:text-white">@item.Subject</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="text-sm text-gray-600 dark:text-gray-400">@item.CreatedDate.ToString("dd MMM yyyy")</span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="@Url.Action("Details", new { id = item.Id })" class="text-blue-600 hover:text-blue-700 dark:text-blue-400" title="View Details">
+                                    <span class="material-icons-outlined text-lg">visibility</span>
+                                </a>
+                                <a href="@Url.Action("Delete", new { id = item.Id })" onclick="return confirm('Delete this message?')" class="text-rose-600 hover:text-rose-700 dark:text-rose-400" title="Delete">
+                                    <span class="material-icons-outlined text-lg">delete</span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="bg-white dark:bg-surface-dark rounded-xl p-12 text-center border border-gray-200 dark:border-surface-border">
+        <span class="material-icons-outlined text-6xl text-gray-300 dark:text-gray-600 mb-4">mail_outline</span>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">No messages yet</h3>
+        <p class="text-gray-500 dark:text-gray-400">Contact messages will appear here</p>
+    </div>
+}
