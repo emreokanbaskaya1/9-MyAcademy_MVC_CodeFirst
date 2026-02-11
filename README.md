@@ -1,331 +1,308 @@
-# ?? MyAcademy MVC CodeFirst - Insurance Management System
+# ?? LifeSure — Insurance Management Platform
 
-[![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.8-blue)](https://dotnet.microsoft.com/download/dotnet-framework/net48)
-[![Entity Framework](https://img.shields.io/badge/Entity%20Framework-6.0-green)](https://docs.microsoft.com/en-us/ef/ef6/)
-[![License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE)
+[![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.8-512BD4)](https://dotnet.microsoft.com/download/dotnet-framework/net48)
+[![ASP.NET MVC](https://img.shields.io/badge/ASP.NET%20MVC-5.2-0078D4)](https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/)
+[![Entity Framework](https://img.shields.io/badge/Entity%20Framework-6.5-68217A)](https://docs.microsoft.com/en-us/ef/ef6/)
+[![Gemini AI](https://img.shields.io/badge/Google%20Gemini-2.0%20Flash-4285F4)](https://ai.google.dev/)
+[![HuggingFace](https://img.shields.io/badge/HuggingFace-BART--MNLI-FFD21E)](https://huggingface.co/)
 
-Modern ASP.NET MVC uygulamasý ile geliþtirilmiþ sigorta yönetim sistemi. Google Gemini API destekli yapay zeka danýþmanlýk özelliði içerir.
-
----
-
-## ?? Özellikler
-
-### ?? Sigorta Yönetim Sistemi
-- Hayat Sigortasý ürün yönetimi
-- Kategori yönetimi
-- Hizmet paketleri
-- Slider yönetimi
-- Blog sistemi
-
-### ?? Yapay Zeka Sigorta Danýþmaný
-- Google Gemini API ile kiþiselleþtirilmiþ öneriler
-- Yaþ, gelir ve aile durumuna göre akýllý analiz
-- Gerçek zamanlý sigorta tavsiyeleri
-
-### ?? Yönetim Paneli
-- Ürün CRUD iþlemleri
-- Kategori yönetimi
-- Blog yönetimi
-- Ekip üyesi yönetimi
-- Testimonial yönetimi
-- Ýletiþim mesajlarý yönetimi
-
-### ?? Modern Arayüz
-- Responsive tasarým
-- Bootstrap 5
-- Font Awesome icons
-- Owl Carousel
-- Modern UI/UX
+A full-featured insurance management system built with ASP.NET MVC 5 and Entity Framework 6 (Code First). The platform includes a public-facing insurance website, a comprehensive admin panel with analytics dashboards, and multiple AI-powered features: a **Google Gemini**-driven insurance advisor, **Hugging Face** zero-shot message classification, **Tavily** real-time web search integration, and a custom **Linear Regression** revenue forecasting engine.
 
 ---
 
-## ?? Kurulum
+## ?? Screenshots
 
-### Gereksinimler
+| Public Website | Admin Dashboard |
+|:-:|:-:|
+| ![Home](docs/screenshots/home.png) | ![Dashboard](docs/screenshots/admin.png) |
 
-- Visual Studio 2019/2022
-- .NET Framework 4.8
-- SQL Server (LocalDB veya Express)
-- Google Gemini API Key ([Buradan alýn](https://aistudio.google.com/app/apikey))
-
-### Adým Adým Kurulum
-
-#### 1. **Projeyi Klonlayýn**
-```bash
-git clone https://github.com/emreokanbaskaya1/9-MyAcademy_MVC_CodeFirst.git
-cd 9-MyAcademy_MVC_CodeFirst
-```
-
-#### 2. **Yapýlandýrma Dosyasýný Oluþturun**
-```bash
-# Örnek dosyayý kopyalayýn
-cd 9-MyAcademy_MVC_CodeFirst
-copy Web.config.example Web.config
-```
-
-#### 3. **API Key'inizi Ayarlayýn**
-
-`Web.config` dosyasýný açýn ve güncelleyin:
-```xml
-<appSettings>
-  <!-- Gerçek API key'inizi buraya yazýn -->
-  <add key="GeminiApiKey" value="YOUR_ACTUAL_API_KEY_HERE" />
-</appSettings>
-```
-
-#### 4. **Veritabanýný Oluþturun**
-```powershell
-# Package Manager Console'da
-Update-Database
-```
-
-#### 5. **Uygulamayý Çalýþtýrýn**
-- Visual Studio'da `F5` tuþuna basýn
-- Tarayýcýda `https://localhost:your-port` adresine gidin
+| AI Insurance Advisor | Revenue Forecast |
+|:-:|:-:|
+| ![AI Advisor](docs/screenshots/ai-advisor.png) | ![Forecast](docs/screenshots/forecast.png) |
 
 ---
 
-## ?? Güvenlik Yapýlandýrmasý
+## ? Key Features
 
-?? **ÖNEMLÝ:** `Web.config` dosyasýný gerçek verilerle birlikte asla commit etmeyin!
+### ?? Public Website
+- **Dynamic Carousel** — Admin-managed homepage sliders
+- **Services Catalog** — Insurance products with categories and pricing
+- **About Section** — Company stats with animated counters
+- **Blog System** — Articles with author, date, and category
+- **Team Page** — Team members with social media links
+- **Testimonials** — Client reviews with star ratings in an Owl Carousel
+- **FAQ Accordion** — Frequently asked questions
+- **Contact Form** — With email notification support (MailKit)
+- **AI Insurance Advisor** — Personalized recommendations via Google Gemini
 
-Detaylý güvenlik yapýlandýrmasý için: [SECURITY_SETUP.md](SECURITY_SETUP.md)
+### ??? Admin Panel (Tailwind CSS + Dark Mode)
+- Full **CRUD** for all content entities (Products, Categories, Blogs, Sliders, Team Members, Testimonials, FAQs, About, Contact Info)
+- **Policy Sales Management** — Create, edit, track policy sales with customer info, payment status, and date-based auto-expiration
+- **Contact Messages** — View incoming messages with AI-powered auto-classification (Hugging Face) and auto-reply generation (Gemini)
+- **Web Search** — Tavily-powered real-time web search from within the admin panel
+- **Analytics Dashboard** — Interactive Chart.js visualizations:
+  - Monthly sales trend (line chart)
+  - Top 5 products by sales (horizontal bar)
+  - Payment status distribution (doughnut)
+  - Policy status distribution (doughnut)
+  - Recent sales table
+- **AI Revenue Forecast** — Next month's revenue & sales count prediction using OLS Linear Regression with 95% confidence intervals, R² score, and trend indicators
 
-**Hýzlý Kontrol:**
-- ? `Web.config` dosyasý `.gitignore` içinde
-- ? `Web.config.example` þablon olarak kullanýlýyor
-- ? API key'ler environment variables'da (production)
-- ? Azure Key Vault kullanýmý (production)
+### ?? AI & ML Integrations
+
+| Service | Purpose | Provider |
+|---------|---------|----------|
+| **Insurance Advisor** | Personalized policy recommendations based on age, income, occupation, family status | Google Gemini 2.0 Flash |
+| **Contact Auto-Reply** | AI-generated professional responses to customer messages | Google Gemini 2.0 Flash |
+| **Message Classification** | Zero-shot categorization of contact messages (complaint, inquiry, urgent, etc.) | Hugging Face BART-MNLI |
+| **Real-time Search** | Current market data & pricing enrichment for AI responses | Tavily Search API |
+| **Revenue Forecast** | Next-month revenue prediction with linear regression (OLS) | Custom implementation |
 
 ---
 
-## ?? Proje Yapýsý
+## ??? Architecture
 
 ```
 9-MyAcademy_MVC_CodeFirst/
 ??? Areas/
-?   ??? Admin/                    # Admin panel
-?       ??? Controllers/          # Admin kontrolcüler
-?       ??? Views/                # Admin görünümler
-??? Controllers/                  # MVC kontrolcüler
-?   ??? HomeController.cs         # Ana sayfa + AI danýþman
+?   ??? Admin/
+?       ??? Controllers/
+?       ?   ??? DashboardController.cs        # Analytics + AI forecast
+?       ?   ??? PolicySaleController.cs       # Policy CRUD
+?       ?   ??? ContactMessageController.cs   # Messages + AI classify
+?       ?   ??? SearchController.cs           # Tavily web search
+?       ?   ??? ProductController.cs
+?       ?   ??? CategoryController.cs
+?       ?   ??? BlogController.cs
+?       ?   ??? SliderController.cs
+?       ?   ??? TeamMemberController.cs
+?       ?   ??? TestimonialController.cs
+?       ?   ??? FAQController.cs
+?       ?   ??? AboutController.cs
+?       ?   ??? ContactController.cs
+?       ?   ??? FeatureController.cs
+?       ??? Views/                            # Tailwind CSS admin views
+??? Controllers/
+?   ??? HomeController.cs                     # Public site + AI advisor
 ??? Data/
-?   ??? Context/                  # DbContext
-?   ?   ??? AppDbContext.cs
-?   ??? Entities/                 # Entity modeller
-?       ??? Category.cs
+?   ??? Context/
+?   ?   ??? AppDbContext.cs                   # EF6 DbContext
+?   ??? Entities/
+?       ??? PolicySale.cs                     # Auto-calculated PolicyStatus
 ?       ??? Product.cs
+?       ??? Category.cs
+?       ??? ContactMessage.cs                 # AI classification fields
+?       ??? Slider.cs
+?       ??? Blog.cs
 ?       ??? Feature.cs
 ?       ??? TeamMember.cs
 ?       ??? Testimonial.cs
-?       ??? Blog.cs
 ?       ??? FAQ.cs
 ?       ??? Contact.cs
-?       ??? Slider.cs
 ?       ??? About.cs
-??? Migrations/                   # EF migrations
-??? Models/                       # View modeller
+??? Services/
+?   ??? GeminiService.cs                      # Google Gemini API client
+?   ??? HuggingFaceService.cs                 # Zero-shot classification
+?   ??? TavilyService.cs                      # Web search API client
+?   ??? RevenueForecastService.cs             # Linear regression forecast
+?   ??? EmailService.cs                       # MailKit email sender
+??? Models/
 ?   ??? HomeViewModel.cs
-??? Services/                     # Business logic
-?   ??? GeminiService.cs          # AI servis
-??? UITheme/                      # Frontend assets
-?   ??? LifeSure-1.0.0/
-??? Views/                        # Razor views
-    ??? Home/
-    ??? Shared/
+?   ??? ContactViewModel.cs
+??? Migrations/                               # EF Code First migrations
+??? Views/
+?   ??? Home/                                 # Public pages (Bootstrap 5)
+?   ??? Shared/
+?       ??? _LayoutFrontend.cshtml
+?       ??? _Layout.cshtml
+??? UITheme/
+    ??? LifeSure-1.0.0/                       # Frontend template assets
 ```
 
 ---
 
-## ??? Kullanýlan Teknolojiler
+## ??? Tech Stack
 
 ### Backend
-- **ASP.NET MVC 5** - Web framework
-- **Entity Framework 6** - ORM (Code First)
-- **C# 7.3** - Programlama dili
-- **SQL Server** - Veritabaný
+| Technology | Version | Usage |
+|-----------|---------|-------|
+| ASP.NET MVC | 5.2.9 | Web framework |
+| Entity Framework | 6.5.1 | ORM (Code First approach) |
+| C# | 7.3 | Language |
+| .NET Framework | 4.8 | Runtime |
+| MailKit | 3.6.0 | SMTP email sending |
+| Newtonsoft.Json | 13.0.3 | JSON serialization |
 
 ### Frontend
-- **Razor View Engine** - Template engine
-- **Bootstrap 5** - CSS framework
-- **jQuery 3.7** - JavaScript library
-- **Owl Carousel** - Slider component
-- **Font Awesome** - Ýkonlar
+| Technology | Usage |
+|-----------|-------|
+| Razor View Engine | Server-side templating |
+| Bootstrap 5 | Public website styling |
+| Tailwind CSS (CDN) | Admin panel styling with dark mode |
+| Chart.js 4.4 | Dashboard visualizations |
+| jQuery 3.7 | DOM manipulation |
+| Owl Carousel | Testimonial/slider carousels |
+| Font Awesome | Icon library |
+| Material Icons | Admin panel icons |
 
-### API & Services
-- **Google Gemini API** - Yapay zeka danýþman
-- **Newtonsoft.Json** - JSON iþleme
+### AI & External APIs
+| API | Model/Version | Usage |
+|-----|--------------|-------|
+| Google Gemini | 2.0 Flash | Insurance advice & auto-replies |
+| Hugging Face | facebook/bart-large-mnli | Message zero-shot classification |
+| Tavily Search | Advanced | Real-time web data enrichment |
 
 ---
 
-## ?? Veritabaný Þemasý
+## ?? Database Schema
 
-```sql
--- Ana tablolar
-Categories (Id, Name)
-Products (Id, Name, Description, ImageUrl, Price, CategoryId, IsActive)
-Features (Id, Icon, Title, Description)
-TeamMembers (Id, Name, Position, ImageUrl, FacebookUrl, TwitterUrl, LinkedInUrl, InstagramUrl)
-Testimonials (Id, ClientName, Position, Comment, Rating, ImageUrl)
-Blogs (Id, Title, Description, ImageUrl, CategoryName, Author, PublishDate, CommentCount)
-FAQs (Id, Question, Answer)
-Contacts (Id, Name, Email, Subject, Message, CreatedDate, IsRead)
-Sliders (Id, Title, Subtitle, Description, ImageUrl, ButtonText, ButtonUrl, DisplayOrder)
-Abouts (Id, Title, Subtitle, Description, ImageUrl, InsurancePolicies, AwardsWon, SkilledAgents, TeamMembers)
+```
+????????????????     ????????????????
+?  Categories   ?????<?   Products   ?
+????????????????     ????????????????
+? Id           ?     ? Id           ?
+? Name         ?     ? Name         ?
+? Description  ?     ? Description  ?
+? IsActive     ?     ? Price        ?
+????????????????     ? ImageUrl     ?
+                     ? CategoryId   ?
+                     ? IsActive     ?
+                     ????????????????
+                            ?
+                     ????????????????
+                     ? PolicySales  ?
+                     ????????????????
+                     ? Id           ?
+                     ? FirstName    ?
+                     ? LastName     ?
+                     ? Email        ?
+                     ? PhoneNumber  ?
+                     ? TCIdentityNo ?
+                     ? Address      ?
+                     ? ProductId(FK)?
+                     ? SaleAmount   ?
+                     ? PolicyStart  ?
+                     ? PolicyEnd    ?
+                     ? PaymentStatus?   ??????????????????
+                     ? ManualStatus ?   ?ContactMessages ?
+                     ? Notes        ?   ??????????????????
+                     ? CreatedDate  ?   ? Id             ?
+                     ? CreatedBy    ?   ? Name, Email    ?
+                     ? IsActive     ?   ? Subject        ?
+                     ????????????????   ? Message        ?
+                                        ? AICategory     ?
+????????????????  ????????????????      ? AIConfidence   ?
+?   Sliders    ?  ?    Blogs     ?      ? IsUrgent       ?
+????????????????  ????????????????      ? AIAutoReply    ?
+? Title        ?  ? Title        ?      ? IsRead         ?
+? Subtitle     ?  ? Description  ?      ??????????????????
+? Description  ?  ? Author       ?
+? ImageUrl     ?  ? PublishDate  ?  ????????????????
+? ButtonText   ?  ? CategoryName ?  ?  TeamMembers ?
+? OrderNumber  ?  ? ImageUrl     ?  ????????????????
+? IsActive     ?  ? IsActive     ?  ? Name         ?
+????????????????  ????????????????  ? Position     ?
+                                    ? ImageUrl     ?
+????????????????  ????????????????  ? Social URLs  ?
+?   Features   ?  ?     FAQs     ?  ????????????????
+????????????????  ????????????????
+? Icon         ?  ? Question     ?  ????????????????
+? Title        ?  ? Answer       ?  ? Testimonials ?
+? Description  ?  ? OrderNumber  ?  ????????????????
+? IsActive     ?  ? IsActive     ?  ? ClientName   ?
+????????????????  ????????????????  ? Comment      ?
+                                    ? Rating (1-5) ?
+????????????????                    ? ImageUrl     ?
+?    Abouts    ?                    ????????????????
+????????????????
+? Title        ?
+? Subtitle     ?
+? Description  ?
+? ImageUrl     ?
+? Stats (4)    ?
+????????????????
 ```
 
----
+### Policy Status Logic
+Policy status (`Active` / `Expired`) is **automatically computed** based on `PolicyStartDate` and `PolicyEndDate`. Only `Cancelled` and `Suspended` can be set manually — no stale data.
 
-## ?? Temel Özellikler ve Kullaným
-
-### 1. **Ana Sayfa**
-- Dinamik slider
-- Özellikler bölümü
-- Hizmetler
-- Hakkýmýzda
-- SSS (FAQ)
-- Blog yazýlarý
-- Ekip üyeleri
-- Müþteri yorumlarý
-
-### 2. **AI Sigorta Danýþmaný**
-```csharp
-// Kullaným örneði
-var service = new GeminiService();
-var advice = await service.GetInsuranceAdviceAsync(
-    age: 30,
-    job: "Yazýlým Geliþtirici",
-    income: 15000,
-    family: "Evli, 1 çocuk"
-);
-```
-
-### 3. **Admin Panel**
-- `/Admin/Product` - Ürün yönetimi
-- `/Admin/Category` - Kategori yönetimi
-- `/Admin/Blog` - Blog yönetimi
-- `/Admin/TeamMember` - Ekip yönetimi
-- `/Admin/Testimonial` - Yorum yönetimi
-- `/Admin/Contact` - Ýletiþim mesajlarý
-- `/Admin/FAQ` - SSS yönetimi
-- `/Admin/Slider` - Slider yönetimi
+### Payment Status Enum
+`Pending` ? `Paid` ? `PartiallyPaid` ? `Refunded` ? `Cancelled`
 
 ---
 
-## ?? Test
+## ?? Revenue Forecast — How It Works
 
-### Uygulamayý Çalýþtýrma
-```bash
-# Debug modunda
-dotnet build --configuration Debug
+The `RevenueForecastService` implements **Ordinary Least Squares (OLS) Linear Regression** without any external ML library:
 
-# Release modunda
-dotnet build --configuration Release
-```
+1. **Data Collection** — Aggregates monthly revenue from the last 12 months of policy sales
+2. **Linear Regression** — Fits a line `y = mx + b` through historical data points
+3. **Prediction** — Extrapolates the trend to estimate next month's revenue and sales count
+4. **Confidence Interval** — Calculates 95% CI using `±1.96 × standard error`
+5. **R² Score** — Reports goodness-of-fit to indicate model reliability
+6. **Trend Detection** — Compares predicted vs. last actual value to show ? up / ? down / ? stable
 
-### API Testi
-```csharp
-// Gemini API entegrasyonunu test et
-var service = new GeminiService();
-var response = await service.GetInsuranceAdviceAsync(30, "Mühendis", 15000, "Bekar");
-Console.WriteLine(response);
-```
+The forecast chart displays actual revenue (solid blue line) alongside the predicted value (dashed purple line) in the admin dashboard.
 
 ---
 
-## ?? Deployment
+## ?? API Integrations Detail
 
-### Azure App Service'e Daðýtým
+### Google Gemini — Insurance Advisor
+The public homepage features an AI advisor form. Users enter age, occupation, income, and family status. The `GeminiService` constructs a prompt, optionally enriches it with real-time market data from Tavily, and returns personalized insurance recommendations.
 
-1. **Visual Studio'dan Yayýnlama**
-   - Projeye sað týk ? Publish
-   - Azure App Service seçin
-   - Ayarlarý yapýlandýrýn
+### Google Gemini — Auto-Reply
+When a customer sends a contact message, `GeminiService.GenerateContactAutoReply()` generates a professional, context-aware response that references the customer's specific inquiry.
 
-2. **Environment Variables Ayarlama**
-   ```bash
-   az webapp config appsettings set \
-     --name your-app-name \
-     --resource-group your-rg \
-     --settings GeminiApiKey="YOUR_KEY"
-   ```
+### Hugging Face — Message Classification
+`HuggingFaceService` uses the `facebook/bart-large-mnli` model for zero-shot classification. Each incoming contact message is categorized as: `complaint`, `inquiry`, `thank you`, `request`, `feedback`, or `urgent` — with confidence scores. Includes a keyword-based fallback if the API is unavailable.
 
-3. **Connection String Yapýlandýrma**
-   - Azure SQL Database kullanýn
-   - App Settings'de connection string güncelleyin
-
-### IIS'e Daðýtým
-
-1. Projeyi Publish edin (File System)
-2. IIS Manager'da yeni site oluþturun
-3. Application Pool: .NET 4.8
-4. `Web.config` dosyasýný production deðerleriyle güncelleyin
+### Tavily — Real-time Search
+When the AI advisor or auto-reply detects the user is asking about current pricing or market data, `TavilyService` performs an advanced web search and injects the results into the Gemini prompt for grounded, up-to-date responses.
 
 ---
 
-## ?? Lisans
+## ?? Admin Panel Routes
 
-Bu proje MIT Lisansý altýnda lisanslanmýþtýr - Detaylar için [LICENSE](LICENSE) dosyasýna bakýn.
+| Route | Description |
+|-------|-------------|
+| `/Admin/Dashboard` | Analytics dashboard with charts and AI forecast |
+| `/Admin/PolicySale` | Policy sales management (CRUD) |
+| `/Admin/Product` | Insurance products |
+| `/Admin/Category` | Product categories |
+| `/Admin/Blog` | Blog articles |
+| `/Admin/Slider` | Homepage carousel sliders |
+| `/Admin/Feature` | Homepage features section |
+| `/Admin/TeamMember` | Team members |
+| `/Admin/Testimonial` | Client testimonials |
+| `/Admin/FAQ` | Frequently asked questions |
+| `/Admin/About` | About section content |
+| `/Admin/Contact` | Contact info settings |
+| `/Admin/ContactMessage` | Customer messages (with AI classification) |
+| `/Admin/Search` | Tavily web search tool |
 
 ---
 
-## ????? Geliþtirici
+## ????? Developer
 
 **Emre Okan Baþkaya**
 - GitHub: [@emreokanbaskaya1](https://github.com/emreokanbaskaya1)
-- Email: emreokanbaskaya@example.com
 
 ---
 
-## ?? Katkýda Bulunma
+## ?? License
 
-Katkýlar memnuniyetle karþýlanýr! Lütfen Pull Request göndermekten çekinmeyin.
-
-1. Projeyi fork edin
-2. Feature branch oluþturun (`git checkout -b feature/AmazingFeature`)
-3. Deðiþikliklerinizi commit edin (`git commit -m 'Add some AmazingFeature'`)
-4. Branch'inizi push edin (`git push origin feature/AmazingFeature`)
-5. Pull Request açýn
+This project is licensed under the MIT License.
 
 ---
 
-## ?? Destek
+## ?? Acknowledgements
 
-Destek için emreokanbaskaya@example.com adresine email gönderin veya GitHub repository'de issue açýn.
-
----
-
-## ?? Teþekkürler
-
-- [LifeSure Template](https://themewagon.com/themes/free-bootstrap-insurance-website-template-lifesure/) - UI Temasý
-- [Google Gemini](https://ai.google.dev/gemini-api/docs) - AI API
-- [Bootstrap](https://getbootstrap.com/) - CSS Framework
-- [Entity Framework](https://docs.microsoft.com/en-us/ef/) - ORM
-- [Font Awesome](https://fontawesome.com/) - Ýkonlar
-
----
-
-## ?? Ekran Görüntüleri
-
-### Ana Sayfa
-![Ana Sayfa](docs/screenshots/home.png)
-
-### AI Sigorta Danýþmaný
-![AI Danýþman](docs/screenshots/ai-advisor.png)
-
-### Admin Panel
-![Admin Panel](docs/screenshots/admin.png)
-
----
-
-## ?? Güncellemeler
-
-### v1.0.0 (Ocak 2025)
-- ? Ýlk sürüm yayýnlandý
-- ? Google Gemini AI entegrasyonu
-- ? Admin panel eklendi
-- ? Güvenlik yapýlandýrmasý iyileþtirildi
-
----
-
-**?? ASP.NET MVC ile geliþtirilmiþtir**
+- [LifeSure Template](https://themewagon.com/themes/free-bootstrap-insurance-website-template-lifesure/) — Frontend UI theme
+- [Google Gemini API](https://ai.google.dev/gemini-api/docs) — AI language model
+- [Hugging Face](https://huggingface.co/) — Zero-shot classification
+- [Tavily](https://tavily.com/) — Web search API
+- [Chart.js](https://www.chartjs.org/) — Data visualization
+- [Tailwind CSS](https://tailwindcss.com/) — Admin panel styling
+- [Bootstrap 5](https://getbootstrap.com/) — Public site styling
+- [Entity Framework](https://docs.microsoft.com/en-us/ef/) — ORM
