@@ -93,45 +93,6 @@ A full-featured insurance management system built with ASP.NET MVC 5 and Entity 
 
 ---
 
-### Policy Status Logic
-Policy status (`Active` / `Expired`) is **automatically computed** based on `PolicyStartDate` and `PolicyEndDate`. Only `Cancelled` and `Suspended` can be set manually — no stale data.
-
-### Payment Status Enum
-`Pending` ? `Paid` ? `PartiallyPaid` ? `Refunded` ? `Cancelled`
-
----
-
-## Revenue Forecast — How It Works
-
-The `RevenueForecastService` implements **Ordinary Least Squares (OLS) Linear Regression** without any external ML library:
-
-1. **Data Collection** — Aggregates monthly revenue from the last 12 months of policy sales
-2. **Linear Regression** — Fits a line `y = mx + b` through historical data points
-3. **Prediction** — Extrapolates the trend to estimate next month's revenue and sales count
-4. **Confidence Interval** — Calculates 95% CI using `±1.96 × standard error`
-5. **R² Score** — Reports goodness-of-fit to indicate model reliability
-6. **Trend Detection** — Compares predicted vs. last actual value to show ? up / ? down / ? stable
-
-The forecast chart displays actual revenue (solid blue line) alongside the predicted value (dashed purple line) in the admin dashboard.
-
----
-
-## API Integrations Detail
-
-### Google Gemini — Insurance Advisor
-The public homepage features an AI advisor form. Users enter age, occupation, income, and family status. The `GeminiService` constructs a prompt, optionally enriches it with real-time market data from Tavily, and returns personalized insurance recommendations.
-
-### Google Gemini — Auto-Reply
-When a customer sends a contact message, `GeminiService.GenerateContactAutoReply()` generates a professional, context-aware response that references the customer's specific inquiry.
-
-### Hugging Face — Message Classification
-`HuggingFaceService` uses the `facebook/bart-large-mnli` model for zero-shot classification. Each incoming contact message is categorized as: `complaint`, `inquiry`, `thank you`, `request`, `feedback`, or `urgent` — with confidence scores. Includes a keyword-based fallback if the API is unavailable.
-
-### Tavily — Real-time Search
-When the AI advisor or auto-reply detects the user is asking about current pricing or market data, `TavilyService` performs an advanced web search and injects the results into the Gemini prompt for grounded, up-to-date responses.
-
----
-
 ## Admin Panel Routes
 
 | Route | Description |
@@ -155,7 +116,7 @@ When the AI advisor or auto-reply detects the user is asking about current prici
 
 ## Developer
 
-**Emre Okan Baþkaya**
+**Emre Okan Baskaya**
 - GitHub: [@emreokanbaskaya1](https://github.com/emreokanbaskaya1)
 
 ---
@@ -165,14 +126,3 @@ When the AI advisor or auto-reply detects the user is asking about current prici
 This project is licensed under the MIT License.
 
 ---
-
-## Acknowledgements
-
-- [LifeSure Template](https://themewagon.com/themes/free-bootstrap-insurance-website-template-lifesure/) — Frontend UI theme
-- [Google Gemini API](https://ai.google.dev/gemini-api/docs) — AI language model
-- [Hugging Face](https://huggingface.co/) — Zero-shot classification
-- [Tavily](https://tavily.com/) — Web search API
-- [Chart.js](https://www.chartjs.org/) — Data visualization
-- [Tailwind CSS](https://tailwindcss.com/) — Admin panel styling
-- [Bootstrap 5](https://getbootstrap.com/) — Public site styling
-- [Entity Framework](https://docs.microsoft.com/en-us/ef/) — ORM
