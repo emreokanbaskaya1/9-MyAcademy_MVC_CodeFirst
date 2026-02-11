@@ -1,4 +1,4 @@
-# ?? LifeSure — Insurance Management Platform
+# LifeSure — Insurance Management Platform
 
 [![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.8-512BD4)](https://dotnet.microsoft.com/download/dotnet-framework/net48)
 [![ASP.NET MVC](https://img.shields.io/badge/ASP.NET%20MVC-5.2-0078D4)](https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/)
@@ -10,7 +10,7 @@ A full-featured insurance management system built with ASP.NET MVC 5 and Entity 
 
 ---
 
-## ?? Screenshots
+## Screenshots
 
 | Public Website | Admin Dashboard |
 |:-:|:-:|
@@ -22,9 +22,9 @@ A full-featured insurance management system built with ASP.NET MVC 5 and Entity 
 
 ---
 
-## ? Key Features
+## Key Features
 
-### ?? Public Website
+### Public Website
 - **Dynamic Carousel** — Admin-managed homepage sliders
 - **Services Catalog** — Insurance products with categories and pricing
 - **About Section** — Company stats with animated counters
@@ -35,7 +35,7 @@ A full-featured insurance management system built with ASP.NET MVC 5 and Entity 
 - **Contact Form** — With email notification support (MailKit)
 - **AI Insurance Advisor** — Personalized recommendations via Google Gemini
 
-### ??? Admin Panel (Tailwind CSS + Dark Mode)
+### Admin Panel (Tailwind CSS + Dark Mode)
 - Full **CRUD** for all content entities (Products, Categories, Blogs, Sliders, Team Members, Testimonials, FAQs, About, Contact Info)
 - **Policy Sales Management** — Create, edit, track policy sales with customer info, payment status, and date-based auto-expiration
 - **Contact Messages** — View incoming messages with AI-powered auto-classification (Hugging Face) and auto-reply generation (Gemini)
@@ -48,7 +48,7 @@ A full-featured insurance management system built with ASP.NET MVC 5 and Entity 
   - Recent sales table
 - **AI Revenue Forecast** — Next month's revenue & sales count prediction using OLS Linear Regression with 95% confidence intervals, R² score, and trend indicators
 
-### ?? AI & ML Integrations
+### AI & ML Integrations
 
 | Service | Purpose | Provider |
 |---------|---------|----------|
@@ -60,7 +60,7 @@ A full-featured insurance management system built with ASP.NET MVC 5 and Entity 
 
 ---
 
-## ??? Architecture
+## Architecture
 
 ```
 9-MyAcademy_MVC_CodeFirst/
@@ -121,7 +121,7 @@ A full-featured insurance management system built with ASP.NET MVC 5 and Entity 
 
 ---
 
-## ??? Tech Stack
+## Tech Stack
 
 ### Backend
 | Technology | Version | Usage |
@@ -154,7 +154,7 @@ A full-featured insurance management system built with ASP.NET MVC 5 and Entity 
 
 ---
 
-## ?? Database Schema
+## Database Schema
 
 ```
 ????????????????     ????????????????
@@ -231,7 +231,7 @@ Policy status (`Active` / `Expired`) is **automatically computed** based on `Pol
 
 ---
 
-## ?? Revenue Forecast — How It Works
+## Revenue Forecast — How It Works
 
 The `RevenueForecastService` implements **Ordinary Least Squares (OLS) Linear Regression** without any external ML library:
 
@@ -246,7 +246,7 @@ The forecast chart displays actual revenue (solid blue line) alongside the predi
 
 ---
 
-## ?? API Integrations Detail
+## API Integrations Detail
 
 ### Google Gemini — Insurance Advisor
 The public homepage features an AI advisor form. Users enter age, occupation, income, and family status. The `GeminiService` constructs a prompt, optionally enriches it with real-time market data from Tavily, and returns personalized insurance recommendations.
@@ -262,7 +262,7 @@ When the AI advisor or auto-reply detects the user is asking about current prici
 
 ---
 
-## ?? Admin Panel Routes
+## Admin Panel Routes
 
 | Route | Description |
 |-------|-------------|
@@ -283,20 +283,20 @@ When the AI advisor or auto-reply detects the user is asking about current prici
 
 ---
 
-## ????? Developer
+## Developer
 
 **Emre Okan Baþkaya**
 - GitHub: [@emreokanbaskaya1](https://github.com/emreokanbaskaya1)
 
 ---
 
-## ?? License
+## License
 
 This project is licensed under the MIT License.
 
 ---
 
-## ?? Acknowledgements
+## Acknowledgements
 
 - [LifeSure Template](https://themewagon.com/themes/free-bootstrap-insurance-website-template-lifesure/) — Frontend UI theme
 - [Google Gemini API](https://ai.google.dev/gemini-api/docs) — AI language model
