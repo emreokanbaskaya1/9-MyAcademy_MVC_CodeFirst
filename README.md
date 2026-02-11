@@ -10,15 +10,13 @@ A full-featured insurance management system built with ASP.NET MVC 5 and Entity 
 
 ---
 
-## Screenshots
+## Video Project
 
-| Public Website | Admin Dashboard |
-|:-:|:-:|
-| ![Home](docs/screenshots/home.png) | ![Dashboard](docs/screenshots/admin.png) |
 
-| AI Insurance Advisor | Revenue Forecast |
-|:-:|:-:|
-| ![AI Advisor](docs/screenshots/ai-advisor.png) | ![Forecast](docs/screenshots/forecast.png) |
+
+https://github.com/user-attachments/assets/f88df18d-48ee-4940-91e2-98feb5d93e2f
+
+
 
 ---
 
