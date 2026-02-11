@@ -1,0 +1,214 @@
+@model IEnumerable<_9_MyAcademy_MVC_CodeFirst.Data.Entities.PolicySale>
+@{
+    ViewBag.Title = "Policy Sales";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="bg-emerald-50 dark:bg-emerald-900/20 border-l-4 border-emerald-500 p-4 mb-6 rounded-lg">
+        <div class="flex items-center gap-2 text-emerald-800 dark:text-emerald-300">
+            <span class="material-icons-outlined">check_circle</span>
+            <p class="font-medium">@TempData["Success"]</p>
+        </div>
+    </div>
+}
+
+<!-- Stats Overview -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <div class="bg-white dark:bg-surface-dark p-4 rounded-lg border border-gray-200 dark:border-surface-border shadow-sm">
+        <div class="flex items-center justify-between">
+            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Sales</div>
+            <span class="material-icons-outlined text-primary text-xl">receipt_long</span>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+            <span class="text-2xl font-bold text-gray-900 dark:text-white">@Model.Count()</span>
+        </div>
+    </div>
+    <div class="bg-white dark:bg-surface-dark p-4 rounded-lg border border-gray-200 dark:border-surface-border shadow-sm">
+        <div class="flex items-center justify-between">
+            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Revenue</div>
+            <span class="material-icons-outlined text-emerald-500 text-xl">paid</span>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+            <span class="text-2xl font-bold text-gray-900 dark:text-white">@Model.Sum(x => x.SaleAmount).ToString("C")</span>
+        </div>
+    </div>
+    <div class="bg-white dark:bg-surface-dark p-4 rounded-lg border border-gray-200 dark:border-surface-border shadow-sm">
+        <div class="flex items-center justify-between">
+            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Paid</div>
+            <span class="material-icons-outlined text-blue-500 text-xl">check_circle</span>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+            <span class="text-2xl font-bold text-gray-900 dark:text-white">@Model.Count(x => x.PaymentStatus == _9_MyAcademy_MVC_CodeFirst.Data.Entities.PaymentStatus.Paid)</span>
+        </div>
+    </div>
+    <div class="bg-white dark:bg-surface-dark p-4 rounded-lg border border-gray-200 dark:border-surface-border shadow-sm">
+        <div class="flex items-center justify-between">
+            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Pending</div>
+            <span class="material-icons-outlined text-amber-500 text-xl">pending</span>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+            <span class="text-2xl font-bold text-gray-900 dark:text-white">@Model.Count(x => x.PaymentStatus == _9_MyAcademy_MVC_CodeFirst.Data.Entities.PaymentStatus.Pending)</span>
+        </div>
+    </div>
+</div>
+
+<div class="flex justify-between items-center mb-6">
+    <p class="text-sm text-gray-500 dark:text-gray-400">Manage policy sales and customer records</p>
+    <a href="@Url.Action("Create")" class="bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg shadow-primary/20 flex items-center gap-2">
+        <span class="material-icons-outlined text-lg">add</span>New Policy Sale
+    </a>
+</div>
+
+@if (Model.Any())
+{
+    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-surface-border">
+                <thead class="bg-gray-50 dark:bg-surface-border/30">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Customer</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Contact</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Policy</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Amount</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Period</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Payment</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Policy Status</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Active</th>
+                        <th class="px-6 py-4 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-surface-border">
+                    @foreach (var item in Model)
+                    {
+                        <tr class="@(!item.IsActive ? "opacity-50" : "") hover:bg-gray-50 dark:hover:bg-primary/5 transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center text-white font-bold text-sm">
+                                        @item.FirstName[0]@item.LastName[0]
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-semibold text-gray-900 dark:text-white">@item.FullName</div>
+                                        <div class="text-xs text-gray-500 dark:text-gray-400">@item.PolicyNumber</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="text-sm text-gray-900 dark:text-white">@item.PhoneNumber</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">@item.Email</div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                                    @(item.Product?.Name ?? "N/A")
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="text-sm font-semibold text-emerald-600 dark:text-emerald-400">@item.SaleAmount.ToString("C")</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="text-xs text-gray-500 dark:text-gray-400">
+                                    <div>@item.PolicyStartDate.ToString("dd/MM/yyyy")</div>
+                                    <div>@item.PolicyEndDate.ToString("dd/MM/yyyy")</div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                @switch (item.PaymentStatus)
+                                {
+                                    case _9_MyAcademy_MVC_CodeFirst.Data.Entities.PaymentStatus.Paid:
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>Paid
+                                        </span>
+                                        break;
+                                    case _9_MyAcademy_MVC_CodeFirst.Data.Entities.PaymentStatus.Pending:
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5"></span>Pending
+                                        </span>
+                                        break;
+                                    case _9_MyAcademy_MVC_CodeFirst.Data.Entities.PaymentStatus.PartiallyPaid:
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5"></span>Partial
+                                        </span>
+                                        break;
+                                    case _9_MyAcademy_MVC_CodeFirst.Data.Entities.PaymentStatus.Refunded:
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-purple-500 mr-1.5"></span>Refunded
+                                        </span>
+                                        break;
+                                    case _9_MyAcademy_MVC_CodeFirst.Data.Entities.PaymentStatus.Cancelled:
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-300">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5"></span>Cancelled
+                                        </span>
+                                        break;
+                                }
+                            </td>
+                            <td class="px-6 py-4">
+                                @switch (item.PolicyStatus)
+                                {
+                                    case _9_MyAcademy_MVC_CodeFirst.Data.Entities.PolicyStatus.Active:
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>Active
+                                        </span>
+                                        break;
+                                    case _9_MyAcademy_MVC_CodeFirst.Data.Entities.PolicyStatus.Expired:
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-300">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-gray-500 mr-1.5"></span>Expired
+                                        </span>
+                                        break;
+                                    case _9_MyAcademy_MVC_CodeFirst.Data.Entities.PolicyStatus.Cancelled:
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-300">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5"></span>Cancelled
+                                        </span>
+                                        break;
+                                    case _9_MyAcademy_MVC_CodeFirst.Data.Entities.PolicyStatus.Suspended:
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5"></span>Suspended
+                                        </span>
+                                        break;
+                                }
+                            </td>
+                            <td class="px-6 py-4">
+                                @if (item.IsActive)
+                                {
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>Active
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-300">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5"></span>Passive
+                                    </span>
+                                }
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <div class="flex items-center justify-end gap-2">
+                                    <a href="@Url.Action("Details", new { id = item.Id })" class="text-blue-600 hover:text-blue-700 dark:text-blue-400" title="View Details">
+                                        <span class="material-icons-outlined text-lg">visibility</span>
+                                    </a>
+                                    <a href="@Url.Action("Edit", new { id = item.Id })" class="text-amber-600 hover:text-amber-700 dark:text-amber-400" title="Edit">
+                                        <span class="material-icons-outlined text-lg">edit</span>
+                                    </a>
+                                    <a href="@Url.Action("Delete", new { id = item.Id })" onclick="return confirm('Are you sure you want to delete this policy sale?')" class="text-rose-600 hover:text-rose-700 dark:text-rose-400" title="Delete">
+                                        <span class="material-icons-outlined text-lg">delete</span>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="bg-white dark:bg-surface-dark rounded-xl p-12 text-center border border-gray-200 dark:border-surface-border">
+        <span class="material-icons-outlined text-6xl text-gray-300 dark:text-gray-600 mb-4">receipt_long</span>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">No policy sales found</h3>
+        <p class="text-gray-500 dark:text-gray-400 mb-4">Start by creating your first policy sale</p>
+        <a href="@Url.Action("Create")" class="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-6 py-2 rounded-lg">
+            <span class="material-icons-outlined">add</span>Create Policy Sale
+        </a>
+    </div>
+}

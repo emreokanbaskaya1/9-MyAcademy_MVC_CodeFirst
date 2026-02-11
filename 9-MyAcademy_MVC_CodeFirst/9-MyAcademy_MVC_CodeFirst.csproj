@@ -142,6 +142,7 @@
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\FAQController.cs" />
     <Compile Include="Areas\Admin\Controllers\FeatureController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PolicySaleController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\SearchController.cs" />
     <Compile Include="Areas\Admin\Controllers\SliderController.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="Data\Entities\ContactMessage.cs" />
     <Compile Include="Data\Entities\FAQ.cs" />
     <Compile Include="Data\Entities\Feature.cs" />
+    <Compile Include="Data\Entities\PolicySale.cs" />
     <Compile Include="Data\Entities\Product.cs" />
     <Compile Include="Data\Entities\Slider.cs" />
     <Compile Include="Data\Entities\TeamMember.cs" />
@@ -191,6 +193,14 @@
     <Compile Include="Migrations\202602102026294_AddAIClassificationFields1.Designer.cs">
       <DependentUpon>202602102026294_AddAIClassificationFields1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202602111033231_police.cs" />
+    <Compile Include="Migrations\202602111033231_police.Designer.cs">
+      <DependentUpon>202602111033231_police.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202602111116551_AddManualPolicyStatus.cs" />
+    <Compile Include="Migrations\202602111116551_AddManualPolicyStatus.Designer.cs">
+      <DependentUpon>202602111116551_AddManualPolicyStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContactViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
@@ -198,6 +208,7 @@
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\GeminiService.cs" />
     <Compile Include="Services\HuggingFaceService.cs" />
+    <Compile Include="Services\RevenueForecastService.cs" />
     <Compile Include="Services\TavilyService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -267,6 +278,10 @@
     <Content Include="Areas\Admin\Views\Product\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\ContactMessage\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ContactMessage\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\PolicySale\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PolicySale\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\PolicySale\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\PolicySale\Details.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -493,6 +508,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202602102026294_AddAIClassificationFields1.resx">
       <DependentUpon>202602102026294_AddAIClassificationFields1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202602111033231_police.resx">
+      <DependentUpon>202602111033231_police.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202602111116551_AddManualPolicyStatus.resx">
+      <DependentUpon>202602111116551_AddManualPolicyStatus.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

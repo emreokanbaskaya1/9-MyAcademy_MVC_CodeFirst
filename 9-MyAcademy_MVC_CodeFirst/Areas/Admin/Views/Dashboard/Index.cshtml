@@ -3,53 +3,392 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-    <!-- Total Categories -->
-    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-6">
-        <div class="flex items-center justify-between mb-4">
-            <div class="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                <span class="material-icons-outlined text-blue-600 dark:text-blue-400 text-2xl">category</span>
+<!-- Policy Sales Summary Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <!-- Total Policy Sales -->
+    <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-5 text-white">
+        <div class="flex items-center justify-between mb-3">
+            <div class="p-2.5 bg-white/20 rounded-lg">
+                <span class="material-icons-outlined text-2xl">receipt_long</span>
             </div>
-            <span class="text-3xl font-bold text-gray-900 dark:text-white">@ViewBag.TotalCategories</span>
+            <span class="text-3xl font-bold">@ViewBag.TotalPolicySales</span>
         </div>
-        <h3 class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Categories</h3>
+        <h3 class="text-sm font-medium opacity-90">Total Policy Sales</h3>
+        <p class="text-xs mt-1 opacity-75">@ViewBag.ActivePolicySales Active</p>
     </div>
 
-    <!-- Total Products -->
-    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-6">
-        <div class="flex items-center justify-between mb-4">
-            <div class="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
-                <span class="material-icons-outlined text-emerald-600 dark:text-emerald-400 text-2xl">inventory</span>
+    <!-- Total Revenue -->
+    <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl shadow-lg p-5 text-white">
+        <div class="flex items-center justify-between mb-3">
+            <div class="p-2.5 bg-white/20 rounded-lg">
+                <span class="material-icons-outlined text-2xl">paid</span>
             </div>
-            <span class="text-3xl font-bold text-gray-900 dark:text-white">@ViewBag.TotalProducts</span>
+            <span class="text-3xl font-bold">@ViewBag.TotalRevenueFormatted</span>
         </div>
-        <h3 class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Products</h3>
+        <h3 class="text-sm font-medium opacity-90">Total Revenue</h3>
+        <p class="text-xs mt-1 opacity-75">From active policies</p>
     </div>
 
-    <!-- Total Blogs -->
-    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-6">
-        <div class="flex items-center justify-between mb-4">
-            <div class="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                <span class="material-icons-outlined text-purple-600 dark:text-purple-400 text-2xl">article</span>
+    <!-- Paid Policies -->
+    <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-5 text-white">
+        <div class="flex items-center justify-between mb-3">
+            <div class="p-2.5 bg-white/20 rounded-lg">
+                <span class="material-icons-outlined text-2xl">check_circle</span>
             </div>
-            <span class="text-3xl font-bold text-gray-900 dark:text-white">@ViewBag.TotalBlogs</span>
+            <span class="text-3xl font-bold">@ViewBag.PaidCount</span>
         </div>
-        <h3 class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Blogs</h3>
+        <h3 class="text-sm font-medium opacity-90">Paid Policies</h3>
+        <p class="text-xs mt-1 opacity-75">@ViewBag.PendingCount Pending</p>
     </div>
 
-    <!-- Total Testimonials -->
-    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-6">
-        <div class="flex items-center justify-between mb-4">
-            <div class="p-3 bg-amber-100 dark:bg-amber-900/30 rounded-lg">
-                <span class="material-icons-outlined text-amber-600 dark:text-amber-400 text-2xl">rate_review</span>
+    <!-- Active Policies -->
+    <div class="bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl shadow-lg p-5 text-white">
+        <div class="flex items-center justify-between mb-3">
+            <div class="p-2.5 bg-white/20 rounded-lg">
+                <span class="material-icons-outlined text-2xl">shield</span>
             </div>
-            <span class="text-3xl font-bold text-gray-900 dark:text-white">@ViewBag.TotalTestimonials</span>
+            <span class="text-3xl font-bold">@ViewBag.ActivePolicyCount</span>
         </div>
-        <h3 class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Testimonials</h3>
+        <h3 class="text-sm font-medium opacity-90">Active Policies</h3>
+        <p class="text-xs mt-1 opacity-75">@ViewBag.ExpiredPolicyCount Expired</p>
     </div>
 </div>
 
-<div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-6">
-    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Welcome to LifeSure Admin Panel</h2>
-    <p class="text-gray-600 dark:text-gray-400">Manage your insurance platform from this dashboard.</p>
+<!-- Charts Row 1 -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+    <!-- Monthly Sales Trend (wider) -->
+    <div class="lg:col-span-2 bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-4">
+        <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+            <span class="material-icons-outlined text-primary text-lg">trending_up</span>
+            Monthly Sales Trend
+        </h3>
+        <div style="height: 220px;">
+            <canvas id="monthlySalesChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Payment Status Distribution -->
+    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-4">
+        <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+            <span class="material-icons-outlined text-primary text-lg">donut_small</span>
+            Payment Status
+        </h3>
+        <div style="height: 220px;">
+            <canvas id="paymentStatusChart"></canvas>
+        </div>
+    </div>
 </div>
+
+<!-- AI Revenue Forecast -->
+<div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-4 mb-4">
+    <div class="flex items-center justify-between mb-3">
+        <h3 class="text-sm font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+            <span class="material-icons-outlined text-purple-500 text-lg">psychology</span>
+            AI Revenue Forecast — Next Month (@ViewBag.ForecastNextMonthLabel)
+        </h3>
+        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300">
+            Linear Regression
+        </span>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-4">
+        <!-- Predicted Revenue -->
+        <div class="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-lg p-3 border border-purple-200 dark:border-purple-800">
+            <div class="text-xs text-purple-600 dark:text-purple-400 font-medium mb-1">Predicted Revenue</div>
+            <div class="text-xl font-bold text-purple-800 dark:text-purple-200">@ViewBag.ForecastPredictedRevenueFormatted</div>
+            <div class="flex items-center mt-1">
+                @if ((string)ViewBag.ForecastTrendDirection == "up")
+                {
+                    <span class="material-icons-outlined text-emerald-500 text-sm">arrow_upward</span>
+                    <span class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">+@ViewBag.ForecastTrendPercentage%</span>
+                }
+                else if ((string)ViewBag.ForecastTrendDirection == "down")
+                {
+                    <span class="material-icons-outlined text-rose-500 text-sm">arrow_downward</span>
+                    <span class="text-xs text-rose-600 dark:text-rose-400 font-medium">@ViewBag.ForecastTrendPercentage%</span>
+                }
+                else
+                {
+                    <span class="material-icons-outlined text-gray-500 text-sm">horizontal_rule</span>
+                    <span class="text-xs text-gray-500 font-medium">Stable</span>
+                }
+            </div>
+        </div>
+        <!-- Predicted Sales -->
+        <div class="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg p-3 border border-blue-200 dark:border-blue-800">
+            <div class="text-xs text-blue-600 dark:text-blue-400 font-medium mb-1">Predicted Sales</div>
+            <div class="text-xl font-bold text-blue-800 dark:text-blue-200">@ViewBag.ForecastPredictedCount</div>
+            <div class="text-xs text-blue-500 dark:text-blue-400 mt-1">policies</div>
+        </div>
+        <!-- Confidence Range -->
+        <div class="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-lg p-3 border border-amber-200 dark:border-amber-800">
+            <div class="text-xs text-amber-600 dark:text-amber-400 font-medium mb-1">95% Confidence Range</div>
+            <div class="text-sm font-bold text-amber-800 dark:text-amber-200">@ViewBag.ForecastConfidenceLowerFormatted — @ViewBag.ForecastConfidenceUpperFormatted</div>
+            <div class="text-xs text-amber-500 dark:text-amber-400 mt-1">lower — upper bound</div>
+        </div>
+        <!-- Model Accuracy -->
+        <div class="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-lg p-3 border border-emerald-200 dark:border-emerald-800">
+            <div class="text-xs text-emerald-600 dark:text-emerald-400 font-medium mb-1">Model R² Score</div>
+            <div class="text-xl font-bold text-emerald-800 dark:text-emerald-200">@ViewBag.ForecastRSquaredFormatted%</div>
+            <div class="text-xs text-emerald-500 dark:text-emerald-400 mt-1">goodness of fit</div>
+        </div>
+    </div>
+    <div style="height: 220px;">
+        <canvas id="forecastChart"></canvas>
+    </div>
+</div>
+
+<!-- Charts Row 2 -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+    <!-- Top Products by Sales (wider) -->
+    <div class="lg:col-span-2 bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-4">
+        <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+            <span class="material-icons-outlined text-primary text-lg">bar_chart</span>
+            Top 5 Products by Sales
+        </h3>
+        <div style="height: 220px;">
+            <canvas id="topProductsChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Policy Status Distribution -->
+    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-4">
+        <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+            <span class="material-icons-outlined text-primary text-lg">pie_chart</span>
+            Policy Status
+        </h3>
+        <div style="height: 220px;">
+            <canvas id="policyStatusChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Sales Table -->
+<div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-4 mb-4">
+    <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+        <span class="material-icons-outlined text-primary text-lg">history</span>
+        Recent Policy Sales
+    </h3>
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-surface-border">
+            <thead class="bg-gray-50 dark:bg-surface-border/30">
+                <tr>
+                    <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Customer</th>
+                    <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Policy</th>
+                    <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Amount</th>
+                    <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Date</th>
+                    <th class="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Status</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-surface-border">
+                @foreach (var sale in (List<_9_MyAcademy_MVC_CodeFirst.Data.Entities.PolicySale>)ViewBag.RecentSales)
+                {
+                    <tr class="hover:bg-gray-50 dark:hover:bg-primary/5">
+                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-white">@sale.FullName</td>
+                        <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">@sale.Product.Name</td>
+                        <td class="px-4 py-3 text-sm font-semibold text-emerald-600 dark:text-emerald-400">@sale.SaleAmount.ToString("C")</td>
+                        <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">@sale.CreatedDate.ToString("dd/MM/yyyy")</td>
+                        <td class="px-4 py-3">
+                            @if (sale.PaymentStatus == _9_MyAcademy_MVC_CodeFirst.Data.Entities.PaymentStatus.Paid)
+                            {
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
+                                    Paid
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300">
+                                    Pending
+                                </span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Content Stats -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-4">
+        <div class="flex items-center justify-between mb-2">
+            <div class="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                <span class="material-icons-outlined text-blue-600 dark:text-blue-400 text-xl">category</span>
+            </div>
+            <span class="text-2xl font-bold text-gray-900 dark:text-white">@ViewBag.TotalCategories</span>
+        </div>
+        <h3 class="text-xs font-medium text-gray-600 dark:text-gray-400">Categories</h3>
+    </div>
+
+    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-4">
+        <div class="flex items-center justify-between mb-2">
+            <div class="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
+                <span class="material-icons-outlined text-emerald-600 dark:text-emerald-400 text-xl">inventory</span>
+            </div>
+            <span class="text-2xl font-bold text-gray-900 dark:text-white">@ViewBag.TotalProducts</span>
+        </div>
+        <h3 class="text-xs font-medium text-gray-600 dark:text-gray-400">Products</h3>
+    </div>
+
+    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-4">
+        <div class="flex items-center justify-between mb-2">
+            <div class="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                <span class="material-icons-outlined text-purple-600 dark:text-purple-400 text-xl">article</span>
+            </div>
+            <span class="text-2xl font-bold text-gray-900 dark:text-white">@ViewBag.TotalBlogs</span>
+        </div>
+        <h3 class="text-xs font-medium text-gray-600 dark:text-gray-400">Blogs</h3>
+    </div>
+
+    <div class="bg-white dark:bg-surface-dark rounded-xl shadow-sm border border-gray-200 dark:border-surface-border p-4">
+        <div class="flex items-center justify-between mb-2">
+            <div class="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg">
+                <span class="material-icons-outlined text-amber-600 dark:text-amber-400 text-xl">rate_review</span>
+            </div>
+            <span class="text-2xl font-bold text-gray-900 dark:text-white">@ViewBag.TotalTestimonials</span>
+        </div>
+        <h3 class="text-xs font-medium text-gray-600 dark:text-gray-400">Testimonials</h3>
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        var isDark = document.documentElement.classList.contains('dark');
+        var gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+        var textColor = isDark ? '#9ca3af' : '#6b7280';
+
+        var scaleX = { grid: { color: gridColor }, ticks: { color: textColor, font: { size: 11 } } };
+        var scaleY = { grid: { color: gridColor }, ticks: { color: textColor, font: { size: 11 } }, beginAtZero: true };
+        var legendBottom = { position: 'bottom', labels: { color: textColor, font: { size: 11 }, padding: 12, usePointStyle: true, pointStyleWidth: 8 } };
+
+        // Monthly Sales Trend
+        new Chart(document.getElementById('monthlySalesChart'), {
+            type: 'line',
+            data: {
+                labels: [@Html.Raw(ViewBag.MonthlyLabels)],
+                datasets: [{
+                    label: 'Sales',
+                    data: [@ViewBag.MonthlyCounts],
+                    borderColor: '#137fec',
+                    backgroundColor: 'rgba(19, 127, 236, 0.08)',
+                    tension: 0.4,
+                    fill: true,
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#137fec'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { x: scaleX, y: scaleY }
+            }
+        });
+
+        // Top Products
+        new Chart(document.getElementById('topProductsChart'), {
+            type: 'bar',
+            data: {
+                labels: [@Html.Raw(ViewBag.TopProductNames)],
+                datasets: [{
+                    data: [@ViewBag.TopProductCounts],
+                    backgroundColor: ['#3b82f6','#10b981','#a855f7','#f97316','#ec4899'],
+                    borderRadius: 4,
+                    barThickness: 28
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: { legend: { display: false } },
+                scales: { x: scaleY, y: scaleX }
+            }
+        });
+
+        // Payment Status
+        new Chart(document.getElementById('paymentStatusChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Paid', 'Pending', 'Partial'],
+                datasets: [{
+                    data: [@ViewBag.PaidCount, @ViewBag.PendingCount, @ViewBag.PartiallyPaidCount],
+                    backgroundColor: ['#10b981','#f59e0b','#3b82f6'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: { legend: legendBottom }
+            }
+        });
+
+        // Policy Status
+        new Chart(document.getElementById('policyStatusChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Active', 'Expired', 'Cancelled'],
+                datasets: [{
+                    data: [@ViewBag.ActivePolicyCount, @ViewBag.ExpiredPolicyCount, @ViewBag.CancelledPolicyCount],
+                    backgroundColor: ['#10b981','#9ca3af','#ef4444'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: { legend: legendBottom }
+            }
+        });
+
+        // AI Revenue Forecast Chart
+        new Chart(document.getElementById('forecastChart'), {
+            type: 'line',
+            data: {
+                labels: [@Html.Raw(ViewBag.ForecastLabels)],
+                datasets: [
+                    {
+                        label: 'Actual Revenue',
+                        data: [@Html.Raw(ViewBag.ForecastActual)],
+                        borderColor: '#137fec',
+                        backgroundColor: 'rgba(19, 127, 236, 0.08)',
+                        tension: 0.4,
+                        fill: true,
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#137fec',
+                        spanGaps: false
+                    },
+                    {
+                        label: 'Predicted',
+                        data: [@Html.Raw(ViewBag.ForecastPredicted)],
+                        borderColor: '#a855f7',
+                        backgroundColor: 'rgba(168, 85, 247, 0.08)',
+                        borderDash: [6, 3],
+                        tension: 0.4,
+                        fill: true,
+                        borderWidth: 2,
+                        pointRadius: 6,
+                        pointBackgroundColor: '#a855f7',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        spanGaps: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: legendBottom
+                },
+                scales: { x: scaleX, y: scaleY }
+            }
+        });
+    </script>
+}
