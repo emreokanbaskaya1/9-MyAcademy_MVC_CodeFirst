@@ -1,9 +1,11 @@
+using _9_MyAcademy_MVC_CodeFirst.Filters;
 using _9_MyAcademy_MVC_CodeFirst.Services;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace _9_MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
 {
+    [AdminAuthFilter]
     public class SearchController : Controller
     {
         private readonly TavilyService _tavilyService = new TavilyService();

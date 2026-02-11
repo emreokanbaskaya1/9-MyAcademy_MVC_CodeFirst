@@ -135,6 +135,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AboutController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AuthController.cs" />
     <Compile Include="Areas\Admin\Controllers\BlogController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\ContactController.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Data\Context\AppDbContext.cs" />
     <Compile Include="Data\Entities\About.cs" />
+    <Compile Include="Data\Entities\AdminUser.cs" />
     <Compile Include="Data\Entities\Blog.cs" />
     <Compile Include="Data\Entities\Category.cs" />
     <Compile Include="Data\Entities\Contact.cs" />
@@ -162,6 +164,7 @@
     <Compile Include="Data\Entities\Slider.cs" />
     <Compile Include="Data\Entities\TeamMember.cs" />
     <Compile Include="Data\Entities\Testimonial.cs" />
+    <Compile Include="Filters\AdminAuthFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -201,7 +204,17 @@
     <Compile Include="Migrations\202602111116551_AddManualPolicyStatus.Designer.cs">
       <DependentUpon>202602111116551_AddManualPolicyStatus.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202602111255003_admin.cs" />
+    <Compile Include="Migrations\202602111255003_admin.Designer.cs">
+      <DependentUpon>202602111255003_admin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202602111309171_test1.cs" />
+    <Compile Include="Migrations\202602111309171_test1.Designer.cs">
+      <DependentUpon>202602111309171_test1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AdminLoginViewModel.cs" />
+    <Compile Include="Models\AdminRegisterViewModel.cs" />
     <Compile Include="Models\ContactViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -282,6 +295,8 @@
     <Content Include="Areas\Admin\Views\PolicySale\Create.cshtml" />
     <Content Include="Areas\Admin\Views\PolicySale\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\PolicySale\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Auth\Login.cshtml" />
+    <Content Include="Areas\Admin\Views\Auth\Register.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -298,6 +313,7 @@
     <Content Include="UITheme\LifeSure-1.0.0\blog.html" />
     <Content Include="UITheme\LifeSure-1.0.0\contact.html" />
     <Content Include="UITheme\LifeSure-1.0.0\css\bootstrap.min.css" />
+    <Content Include="UITheme\LifeSure-1.0.0\css\carousel-fix.css" />
     <Content Include="UITheme\LifeSure-1.0.0\css\style.css" />
     <Content Include="UITheme\LifeSure-1.0.0\FAQ.html" />
     <Content Include="UITheme\LifeSure-1.0.0\feature.html" />
@@ -514,6 +530,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202602111116551_AddManualPolicyStatus.resx">
       <DependentUpon>202602111116551_AddManualPolicyStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202602111255003_admin.resx">
+      <DependentUpon>202602111255003_admin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202602111309171_test1.resx">
+      <DependentUpon>202602111309171_test1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

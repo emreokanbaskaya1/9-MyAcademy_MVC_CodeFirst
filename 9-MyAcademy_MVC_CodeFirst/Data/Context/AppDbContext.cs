@@ -18,5 +18,6 @@ namespace _9_MyAcademy_MVC_CodeFirst.Data.Context
         public DbSet<About> Abouts { get; set; }
         public DbSet<ContactMessage> ContactMessages { get; set; }
         public DbSet<PolicySale> PolicySales { get; set; }
+        public DbSet<AdminUser> AdminUsers { get; set; }
     }
 }

@@ -1,11 +1,13 @@
 using _9_MyAcademy_MVC_CodeFirst.Data.Context;
 using _9_MyAcademy_MVC_CodeFirst.Data.Entities;
+using _9_MyAcademy_MVC_CodeFirst.Filters;
 using System;
 using System.Linq;
 using System.Web.Mvc;
 
 namespace _9_MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
 {
+    [AdminAuthFilter]
     public class TestimonialController : Controller
     {
         private readonly AppDbContext _context = new AppDbContext();

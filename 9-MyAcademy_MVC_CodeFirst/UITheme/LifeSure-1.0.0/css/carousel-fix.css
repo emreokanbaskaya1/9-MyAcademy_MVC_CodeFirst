@@ -1,0 +1,28 @@
+/* Owl Carousel Navigation Icons Fix */
+.header-carousel .owl-nav .owl-prev::before {
+    content: '\f053';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-size: 24px;
+    color: var(--bs-primary);
+}
+
+.header-carousel .owl-nav .owl-next::before {
+    content: '\f054';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-size: 24px;
+    color: var(--bs-primary);
+}
+
+.header-carousel .owl-nav .owl-prev:hover::before,
+.header-carousel .owl-nav .owl-next:hover::before {
+    color: var(--bs-white);
+}
+
+.header-carousel .owl-nav .owl-prev,
+.header-carousel .owl-nav .owl-next {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}

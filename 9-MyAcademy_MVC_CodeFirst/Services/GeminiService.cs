@@ -77,7 +77,8 @@ namespace _9_MyAcademy_MVC_CodeFirst.Services
         }
 
         /// <summary>
-        /// Generates an automatic response to customer contact messages
+        /// Generates an automatic response to customer contact messages.
+        /// Detects the language of the customer's message and replies in the same language.
         /// </summary>
         public async Task<string> GenerateContactAutoReply(string customerName, string subject, string message)
         {
@@ -112,6 +113,14 @@ Subject: {subject}
 Message: {message}
 {contextInfo}
 
+CRITICAL INSTRUCTION - LANGUAGE DETECTION:
+Detect the language of the customer's message above. You MUST reply in the SAME language the customer used.
+For example:
+- If the message is in Turkish, reply entirely in Turkish.
+- If the message is in English, reply entirely in English.
+- If the message is in German, reply entirely in German.
+- And so on for any other language.
+
 Please generate a helpful, friendly, and professional response that:
 1. Acknowledges their inquiry
 2. If they asked for specific prices or 2026 data, use the real-time market information provided above
@@ -124,7 +133,7 @@ Important:
 - If real market data is provided above, USE THOSE SPECIFIC PRICES in your answer
 - Write in a warm, professional tone
 - Be specific with numbers when available
-Answer in English.";
+- ALWAYS respond in the same language as the customer's message.";
 
                 return await GenerateContent(prompt);
             }
@@ -132,6 +141,40 @@ Answer in English.";
             {
                 Debug.WriteLine("Error in GenerateContactAutoReply: " + ex.Message);
                 return GetFallbackAutoReply(customerName);
+            }
+        }
+
+        /// <summary>
+        /// Detects the language of a given text and returns a short thank-you message in that language.
+        /// </summary>
+        public async Task<string> GenerateThankYouMessage(string customerName, string originalMessage)
+        {
+            try
+            {
+                var prompt = $@"Detect the language of the following message and generate a SHORT thank-you confirmation message in the SAME language. 
+The message is from a customer named {customerName} who just submitted a contact form on our insurance website.
+
+Customer's message: ""{originalMessage}""
+
+Requirements:
+- Detect the language of the customer's message
+- Write a 1-2 sentence thank-you/confirmation message in that SAME language
+- Include the customer's name
+- Mention that the team will respond soon
+- Keep it brief (suitable for a web page alert/notification)
+- Do NOT include any greeting like 'Dear' - just the confirmation text
+- Do NOT use quotation marks around the response
+
+Examples:
+- English message -> ""Thank you, John! Your message has been sent successfully. Our team will get back to you shortly.""
+- Turkish message -> ""Tesekkurler, Ahmet! Mesajiniz basariyla gonderildi. Ekibimiz en kisa surede size donecektir.""";
+
+                return await GenerateContent(prompt);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error generating thank you message: " + ex.Message);
+                return $"Thank you, {customerName}! Your message has been sent successfully. We will get back to you soon.";
             }
         }
 

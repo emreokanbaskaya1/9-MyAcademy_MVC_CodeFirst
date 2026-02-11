@@ -26,6 +26,9 @@
 
     <!-- Template Stylesheet -->
     <link href="~/UITheme/LifeSure-1.0.0/css/style.css" rel="stylesheet">
+    
+    <!-- Carousel Navigation Fix -->
+    <link href="~/UITheme/LifeSure-1.0.0/css/carousel-fix.css" rel="stylesheet">
 </head>
 
 <body>
@@ -92,6 +95,9 @@
                         <a href="#" class="nav-item nav-link">Services</a>
                         <a href="#" class="nav-item nav-link">Blog</a>
                         <a href="@Url.Action("Contact", "Home")" class="nav-item nav-link">Contact</a>
+                        <a href="@Url.Action("Login", "Auth", new { area = "Admin" })" class="nav-item nav-link">
+                            <i class="fas fa-lock me-1"></i>Admin
+                        </a>
                         <div class="nav-btn px-3">
                             <button class="btn-search btn btn-primary btn-md-square rounded-circle flex-shrink-0" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search"></i></button>
                             <a href="#" class="btn btn-primary rounded-pill py-2 px-4 ms-3 flex-shrink-0">Get a Quote</a>

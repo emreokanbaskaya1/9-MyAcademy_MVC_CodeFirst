@@ -1,5 +1,6 @@
 using _9_MyAcademy_MVC_CodeFirst.Data.Context;
 using _9_MyAcademy_MVC_CodeFirst.Data.Entities;
+using _9_MyAcademy_MVC_CodeFirst.Filters;
 using _9_MyAcademy_MVC_CodeFirst.Services;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace _9_MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
 {
+    [AdminAuthFilter]
     public class DashboardController : Controller
     {
         private readonly AppDbContext _context = new AppDbContext();

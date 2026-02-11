@@ -147,7 +147,22 @@ namespace _9_MyAcademy_MVC_CodeFirst.Controllers
                         Debug.WriteLine($"Failed to send auto-reply: {ex.Message}");
                     }
 
-                    TempData["Success"] = "Your message has been sent successfully! We will get back to you soon.";
+                    // Generate thank-you message in the customer's language
+                    string thankYouMessage;
+                    try
+                    {
+                        thankYouMessage = await _geminiService.GenerateThankYouMessage(
+                            model.Message.Name,
+                            model.Message.Message
+                        );
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Failed to generate thank-you message: {ex.Message}");
+                        thankYouMessage = $"Thank you, {model.Message.Name}! Your message has been sent successfully. We will get back to you soon.";
+                    }
+
+                    TempData["Success"] = thankYouMessage;
                     return RedirectToAction("Contact");
                 }
                 catch (Exception ex)

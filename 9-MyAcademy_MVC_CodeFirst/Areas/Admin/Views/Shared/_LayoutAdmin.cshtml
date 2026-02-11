@@ -142,14 +142,18 @@
         <div class="p-4 border-t border-gray-200 dark:border-surface-border">
             <div class="flex items-center gap-3">
                 <div class="h-9 w-9 rounded-full bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center text-xs text-white font-bold">
-                    AD
+                    @{
+                        var fullName = Session["AdminFullName"] as string ?? "Admin";
+                        var initials = fullName.Length >= 2 ? fullName.Substring(0, 2).ToUpper() : fullName.ToUpper();
+                    }
+                    @initials
                 </div>
                 <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-gray-900 dark:text-white truncate">Admin User</p>
+                    <p class="text-sm font-medium text-gray-900 dark:text-white truncate">@fullName</p>
                     <p class="text-xs text-gray-500 dark:text-gray-400 truncate">Administrator</p>
                 </div>
-                <a href="@Url.Action("Index", "Home", new { area = "" })" class="text-gray-400 hover:text-white">
-                    <span class="material-icons-outlined">home</span>
+                <a href="@Url.Action("Logout", "Auth", new { area = "Admin" })" class="text-gray-400 hover:text-rose-400 transition-colors" title="Logout">
+                    <span class="material-icons-outlined">logout</span>
                 </a>
             </div>
         </div>

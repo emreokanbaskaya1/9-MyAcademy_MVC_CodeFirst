@@ -1,5 +1,6 @@
 using _9_MyAcademy_MVC_CodeFirst.Data.Context;
 using _9_MyAcademy_MVC_CodeFirst.Data.Entities;
+using _9_MyAcademy_MVC_CodeFirst.Filters;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Web.Mvc;
 
 namespace _9_MyAcademy_MVC_CodeFirst.Areas.Admin.Controllers
 {
+    [AdminAuthFilter]
     public class PolicySaleController : Controller
     {
         private readonly AppDbContext _context = new AppDbContext();

@@ -150,38 +150,12 @@ namespace _9_MyAcademy_MVC_CodeFirst.Services
         }
 
         /// <summary>
-        /// Sends auto-reply email to customer with AI-generated response
+        /// Sends auto-reply email to customer with AI-generated response in the customer's language
         /// </summary>
         public async Task SendAutoReplyToCustomer(string customerEmail, string customerName, string originalSubject, string aiResponse, string aiCategory)
         {
             try
             {
-                string categoryMessage;
-                switch (aiCategory)
-                {
-                    case "Complaint":
-                        categoryMessage = "We understand your concern and take complaints very seriously. Our team will prioritize your case.";
-                        break;
-                    case "Thank You":
-                        categoryMessage = "We truly appreciate your kind words! It means a lot to our team.";
-                        break;
-                    case "Inquiry":
-                        categoryMessage = "Great question! We've prepared some information that should help answer your inquiry.";
-                        break;
-                    case "Request":
-                        categoryMessage = "We've received your request and our team will process it as soon as possible.";
-                        break;
-                    case "Feedback":
-                        categoryMessage = "Thank you for your valuable feedback! We continuously strive to improve our services.";
-                        break;
-                    case "Urgent":
-                        categoryMessage = "We've flagged your message as urgent and our team will respond to you as quickly as possible.";
-                        break;
-                    default:
-                        categoryMessage = "We've received your message and our team will review it shortly.";
-                        break;
-                }
-
                 var htmlBody = $@"
                     <html>
                     <head>
@@ -190,7 +164,6 @@ namespace _9_MyAcademy_MVC_CodeFirst.Services
                             .container {{ max-width: 600px; margin: 0 auto; }}
                             .header {{ background-color: #0d6efd; color: white; padding: 30px; text-align: center; }}
                             .header h1 {{ margin: 0; }}
-                            .category-bar {{ padding: 12px 30px; background-color: #e8f0fe; border-left: 4px solid #0d6efd; }}
                             .content {{ padding: 30px; background-color: #f8f9fa; }}
                             .greeting {{ font-size: 18px; margin-bottom: 20px; }}
                             .ai-response {{ background-color: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #0d6efd; }}
@@ -203,19 +176,10 @@ namespace _9_MyAcademy_MVC_CodeFirst.Services
                                 <h1>LifeSure Insurance</h1>
                                 <p style='margin: 5px 0 0 0;'>Your Trusted Insurance Partner</p>
                             </div>
-                            <div class='category-bar'>
-                                <strong>Your message has been categorized as:</strong> {aiCategory}<br/>
-                                <span style='font-size: 13px; color: #555;'>{categoryMessage}</span>
-                            </div>
                             <div class='content'>
-                                <p class='greeting'>Dear {customerName},</p>
-                                <p>Thank you for reaching out to LifeSure Insurance. We have received your message and our team will get back to you shortly.</p>
-                                <p>In the meantime, here is some helpful information based on your inquiry:</p>
                                 <div class='ai-response'>
                                     {aiResponse.Replace("\n", "<br/>")}
                                 </div>
-                                <p>If you have any urgent questions, please don't hesitate to call us directly.</p>
-                                <p>Best regards,<br/><strong>LifeSure Insurance Team</strong></p>
                             </div>
                             <div class='footer'>
                                 <p>&copy; {DateTime.Now.Year} LifeSure Insurance. All rights reserved.</p>
@@ -224,7 +188,7 @@ namespace _9_MyAcademy_MVC_CodeFirst.Services
                     </body>
                     </html>";
 
-                await SendEmailAsync(customerEmail, $"Re: {originalSubject} - Thank you for contacting LifeSure", htmlBody);
+                await SendEmailAsync(customerEmail, $"Re: {originalSubject} - LifeSure Insurance", htmlBody);
                 Debug.WriteLine($"Auto-reply email sent successfully to {customerEmail}.");
             }
             catch (Exception ex)

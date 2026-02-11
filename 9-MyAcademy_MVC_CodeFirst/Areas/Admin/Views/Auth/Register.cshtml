@@ -1,0 +1,172 @@
+@model _9_MyAcademy_MVC_CodeFirst.Models.AdminRegisterViewModel
+@{
+    ViewBag.Title = "Admin Register";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Admin Register - LifeSure</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "primary-hover": "#0e6ac9",
+                        "background-dark": "#101922",
+                        "surface-dark": "#18232e",
+                        "surface-border": "#253444",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-dark font-display antialiased min-h-screen flex items-center justify-center p-4">
+
+    <!-- Background Pattern -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative w-full max-w-md">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center gap-2 text-primary font-bold text-2xl mb-2">
+                <span class="material-icons-outlined text-3xl">shield</span>
+                <span>LifeSure</span>
+            </div>
+            <p class="text-gray-400 text-sm">Admin Panel Registration</p>
+        </div>
+
+        <!-- Register Card -->
+        <div class="bg-surface-dark border border-surface-border rounded-2xl shadow-2xl p-8">
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold text-white">Create Admin Account</h2>
+                <p class="text-gray-400 text-sm mt-1">Fill in the details to register</p>
+            </div>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                var errors = ViewData.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).Where(e => !string.IsNullOrEmpty(e)).ToList();
+                if (errors.Any())
+                {
+                    <div class="bg-rose-900/20 border border-rose-800 rounded-lg p-3 mb-6">
+                        @foreach (var error in errors)
+                        {
+                            <div class="flex items-center gap-2 text-rose-300 text-sm mb-1 last:mb-0">
+                                <span class="material-icons-outlined text-lg">error_outline</span>
+                                <span>@error</span>
+                            </div>
+                        }
+                    </div>
+                }
+            }
+
+            @using (Html.BeginForm("Register", "Auth", new { area = "Admin" }, FormMethod.Post, new { @class = "space-y-4" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1.5">Username</label>
+                    <div class="relative">
+                        <span class="material-icons-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xl">person</span>
+                        @Html.TextBoxFor(m => m.Username, new
+                        {
+                            @class = "w-full bg-background-dark border border-surface-border rounded-lg py-2.5 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors",
+                            placeholder = "Enter username",
+                            autocomplete = "username"
+                        })
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1.5">Email</label>
+                    <div class="relative">
+                        <span class="material-icons-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xl">email</span>
+                        @Html.TextBoxFor(m => m.Email, new
+                        {
+                            @class = "w-full bg-background-dark border border-surface-border rounded-lg py-2.5 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors",
+                            placeholder = "admin@lifesure.com",
+                            autocomplete = "email"
+                        })
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1.5">Full Name</label>
+                    <div class="relative">
+                        <span class="material-icons-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xl">badge</span>
+                        @Html.TextBoxFor(m => m.FullName, new
+                        {
+                            @class = "w-full bg-background-dark border border-surface-border rounded-lg py-2.5 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors",
+                            placeholder = "John Doe",
+                            autocomplete = "name"
+                        })
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1.5">Password</label>
+                    <div class="relative">
+                        <span class="material-icons-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xl">lock</span>
+                        @Html.PasswordFor(m => m.Password, new
+                        {
+                            @class = "w-full bg-background-dark border border-surface-border rounded-lg py-2.5 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors",
+                            placeholder = "Minimum 6 characters",
+                            autocomplete = "new-password"
+                        })
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1.5">Confirm Password</label>
+                    <div class="relative">
+                        <span class="material-icons-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xl">lock_reset</span>
+                        @Html.PasswordFor(m => m.ConfirmPassword, new
+                        {
+                            @class = "w-full bg-background-dark border border-surface-border rounded-lg py-2.5 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors",
+                            placeholder = "Re-enter password",
+                            autocomplete = "new-password"
+                        })
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-primary hover:bg-primary-hover text-white font-medium py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
+                    <span class="material-icons-outlined text-xl">person_add</span>
+                    Create Account
+                </button>
+
+                <div class="text-center pt-2">
+                    <p class="text-sm text-gray-400">
+                        Already have an account?
+                        <a href="@Url.Action("Login", "Auth", new { area = "Admin" })" class="text-primary hover:text-primary-hover font-medium transition-colors">
+                            Sign In
+                        </a>
+                    </p>
+                </div>
+            }
+        </div>
+
+        <!-- Footer -->
+        <p class="text-center text-gray-500 text-xs mt-6">
+            LifeSure Insurance &copy; @DateTime.Now.Year. All rights reserved.
+        </p>
+    </div>
+
+</body>
+</html>

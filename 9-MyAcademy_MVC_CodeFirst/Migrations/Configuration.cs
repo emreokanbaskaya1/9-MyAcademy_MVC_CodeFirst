@@ -9,7 +9,7 @@ namespace _9_MyAcademy_MVC_CodeFirst.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = false;
         }
 
