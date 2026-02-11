@@ -1,4 +1,4 @@
-# LifeSure — Insurance Management Platform
+# LifeSure â€” Insurance Management Platform
 
 [![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.8-512BD4)](https://dotnet.microsoft.com/download/dotnet-framework/net48)
 [![ASP.NET MVC](https://img.shields.io/badge/ASP.NET%20MVC-5.2-0078D4)](https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/)
@@ -25,28 +25,28 @@ A full-featured insurance management system built with ASP.NET MVC 5 and Entity 
 ## Key Features
 
 ### Public Website
-- **Dynamic Carousel** — Admin-managed homepage sliders
-- **Services Catalog** — Insurance products with categories and pricing
-- **About Section** — Company stats with animated counters
-- **Blog System** — Articles with author, date, and category
-- **Team Page** — Team members with social media links
-- **Testimonials** — Client reviews with star ratings in an Owl Carousel
-- **FAQ Accordion** — Frequently asked questions
-- **Contact Form** — With email notification support (MailKit)
-- **AI Insurance Advisor** — Personalized recommendations via Google Gemini
+- **Dynamic Carousel** â€” Admin-managed homepage sliders
+- **Services Catalog** â€” Insurance products with categories and pricing
+- **About Section** â€” Company stats with animated counters
+- **Blog System** â€” Articles with author, date, and category
+- **Team Page** â€” Team members with social media links
+- **Testimonials** â€” Client reviews with star ratings in an Owl Carousel
+- **FAQ Accordion** â€” Frequently asked questions
+- **Contact Form** â€” With email notification support (MailKit)
+- **AI Insurance Advisor** â€” Personalized recommendations via Google Gemini
 
 ### Admin Panel (Tailwind CSS + Dark Mode)
 - Full **CRUD** for all content entities (Products, Categories, Blogs, Sliders, Team Members, Testimonials, FAQs, About, Contact Info)
-- **Policy Sales Management** — Create, edit, track policy sales with customer info, payment status, and date-based auto-expiration
-- **Contact Messages** — View incoming messages with AI-powered auto-classification (Hugging Face) and auto-reply generation (Gemini)
-- **Web Search** — Tavily-powered real-time web search from within the admin panel
-- **Analytics Dashboard** — Interactive Chart.js visualizations:
+- **Policy Sales Management** â€” Create, edit, track policy sales with customer info, payment status, and date-based auto-expiration
+- **Contact Messages** â€” View incoming messages with AI-powered auto-classification (Hugging Face) and auto-reply generation (Gemini)
+- **Web Search** â€” Tavily-powered real-time web search from within the admin panel
+- **Analytics Dashboard** â€” Interactive Chart.js visualizations:
   - Monthly sales trend (line chart)
   - Top 5 products by sales (horizontal bar)
   - Payment status distribution (doughnut)
   - Policy status distribution (doughnut)
   - Recent sales table
-- **AI Revenue Forecast** — Next month's revenue & sales count prediction using OLS Linear Regression with 95% confidence intervals, R² score, and trend indicators
+- **AI Revenue Forecast** â€” Next month's revenue & sales count prediction using OLS Linear Regression with 95% confidence intervals, RÂ² score, and trend indicators
 
 ### AI & ML Integrations
 
@@ -57,67 +57,6 @@ A full-featured insurance management system built with ASP.NET MVC 5 and Entity 
 | **Message Classification** | Zero-shot categorization of contact messages (complaint, inquiry, urgent, etc.) | Hugging Face BART-MNLI |
 | **Real-time Search** | Current market data & pricing enrichment for AI responses | Tavily Search API |
 | **Revenue Forecast** | Next-month revenue prediction with linear regression (OLS) | Custom implementation |
-
----
-
-## Architecture
-
-```
-9-MyAcademy_MVC_CodeFirst/
-??? Areas/
-?   ??? Admin/
-?       ??? Controllers/
-?       ?   ??? DashboardController.cs        # Analytics + AI forecast
-?       ?   ??? PolicySaleController.cs       # Policy CRUD
-?       ?   ??? ContactMessageController.cs   # Messages + AI classify
-?       ?   ??? SearchController.cs           # Tavily web search
-?       ?   ??? ProductController.cs
-?       ?   ??? CategoryController.cs
-?       ?   ??? BlogController.cs
-?       ?   ??? SliderController.cs
-?       ?   ??? TeamMemberController.cs
-?       ?   ??? TestimonialController.cs
-?       ?   ??? FAQController.cs
-?       ?   ??? AboutController.cs
-?       ?   ??? ContactController.cs
-?       ?   ??? FeatureController.cs
-?       ??? Views/                            # Tailwind CSS admin views
-??? Controllers/
-?   ??? HomeController.cs                     # Public site + AI advisor
-??? Data/
-?   ??? Context/
-?   ?   ??? AppDbContext.cs                   # EF6 DbContext
-?   ??? Entities/
-?       ??? PolicySale.cs                     # Auto-calculated PolicyStatus
-?       ??? Product.cs
-?       ??? Category.cs
-?       ??? ContactMessage.cs                 # AI classification fields
-?       ??? Slider.cs
-?       ??? Blog.cs
-?       ??? Feature.cs
-?       ??? TeamMember.cs
-?       ??? Testimonial.cs
-?       ??? FAQ.cs
-?       ??? Contact.cs
-?       ??? About.cs
-??? Services/
-?   ??? GeminiService.cs                      # Google Gemini API client
-?   ??? HuggingFaceService.cs                 # Zero-shot classification
-?   ??? TavilyService.cs                      # Web search API client
-?   ??? RevenueForecastService.cs             # Linear regression forecast
-?   ??? EmailService.cs                       # MailKit email sender
-??? Models/
-?   ??? HomeViewModel.cs
-?   ??? ContactViewModel.cs
-??? Migrations/                               # EF Code First migrations
-??? Views/
-?   ??? Home/                                 # Public pages (Bootstrap 5)
-?   ??? Shared/
-?       ??? _LayoutFrontend.cshtml
-?       ??? _Layout.cshtml
-??? UITheme/
-    ??? LifeSure-1.0.0/                       # Frontend template assets
-```
 
 ---
 
@@ -154,93 +93,24 @@ A full-featured insurance management system built with ASP.NET MVC 5 and Entity 
 
 ---
 
-## Database Schema
-
-```
-????????????????     ????????????????
-?  Categories   ?????<?   Products   ?
-????????????????     ????????????????
-? Id           ?     ? Id           ?
-? Name         ?     ? Name         ?
-? Description  ?     ? Description  ?
-? IsActive     ?     ? Price        ?
-????????????????     ? ImageUrl     ?
-                     ? CategoryId   ?
-                     ? IsActive     ?
-                     ????????????????
-                            ?
-                     ????????????????
-                     ? PolicySales  ?
-                     ????????????????
-                     ? Id           ?
-                     ? FirstName    ?
-                     ? LastName     ?
-                     ? Email        ?
-                     ? PhoneNumber  ?
-                     ? TCIdentityNo ?
-                     ? Address      ?
-                     ? ProductId(FK)?
-                     ? SaleAmount   ?
-                     ? PolicyStart  ?
-                     ? PolicyEnd    ?
-                     ? PaymentStatus?   ??????????????????
-                     ? ManualStatus ?   ?ContactMessages ?
-                     ? Notes        ?   ??????????????????
-                     ? CreatedDate  ?   ? Id             ?
-                     ? CreatedBy    ?   ? Name, Email    ?
-                     ? IsActive     ?   ? Subject        ?
-                     ????????????????   ? Message        ?
-                                        ? AICategory     ?
-????????????????  ????????????????      ? AIConfidence   ?
-?   Sliders    ?  ?    Blogs     ?      ? IsUrgent       ?
-????????????????  ????????????????      ? AIAutoReply    ?
-? Title        ?  ? Title        ?      ? IsRead         ?
-? Subtitle     ?  ? Description  ?      ??????????????????
-? Description  ?  ? Author       ?
-? ImageUrl     ?  ? PublishDate  ?  ????????????????
-? ButtonText   ?  ? CategoryName ?  ?  TeamMembers ?
-? OrderNumber  ?  ? ImageUrl     ?  ????????????????
-? IsActive     ?  ? IsActive     ?  ? Name         ?
-????????????????  ????????????????  ? Position     ?
-                                    ? ImageUrl     ?
-????????????????  ????????????????  ? Social URLs  ?
-?   Features   ?  ?     FAQs     ?  ????????????????
-????????????????  ????????????????
-? Icon         ?  ? Question     ?  ????????????????
-? Title        ?  ? Answer       ?  ? Testimonials ?
-? Description  ?  ? OrderNumber  ?  ????????????????
-? IsActive     ?  ? IsActive     ?  ? ClientName   ?
-????????????????  ????????????????  ? Comment      ?
-                                    ? Rating (1-5) ?
-????????????????                    ? ImageUrl     ?
-?    Abouts    ?                    ????????????????
-????????????????
-? Title        ?
-? Subtitle     ?
-? Description  ?
-? ImageUrl     ?
-? Stats (4)    ?
-????????????????
-```
-
 ### Policy Status Logic
-Policy status (`Active` / `Expired`) is **automatically computed** based on `PolicyStartDate` and `PolicyEndDate`. Only `Cancelled` and `Suspended` can be set manually — no stale data.
+Policy status (`Active` / `Expired`) is **automatically computed** based on `PolicyStartDate` and `PolicyEndDate`. Only `Cancelled` and `Suspended` can be set manually â€” no stale data.
 
 ### Payment Status Enum
 `Pending` ? `Paid` ? `PartiallyPaid` ? `Refunded` ? `Cancelled`
 
 ---
 
-## Revenue Forecast — How It Works
+## Revenue Forecast â€” How It Works
 
 The `RevenueForecastService` implements **Ordinary Least Squares (OLS) Linear Regression** without any external ML library:
 
-1. **Data Collection** — Aggregates monthly revenue from the last 12 months of policy sales
-2. **Linear Regression** — Fits a line `y = mx + b` through historical data points
-3. **Prediction** — Extrapolates the trend to estimate next month's revenue and sales count
-4. **Confidence Interval** — Calculates 95% CI using `±1.96 × standard error`
-5. **R² Score** — Reports goodness-of-fit to indicate model reliability
-6. **Trend Detection** — Compares predicted vs. last actual value to show ? up / ? down / ? stable
+1. **Data Collection** â€” Aggregates monthly revenue from the last 12 months of policy sales
+2. **Linear Regression** â€” Fits a line `y = mx + b` through historical data points
+3. **Prediction** â€” Extrapolates the trend to estimate next month's revenue and sales count
+4. **Confidence Interval** â€” Calculates 95% CI using `Â±1.96 Ã— standard error`
+5. **RÂ² Score** â€” Reports goodness-of-fit to indicate model reliability
+6. **Trend Detection** â€” Compares predicted vs. last actual value to show ? up / ? down / ? stable
 
 The forecast chart displays actual revenue (solid blue line) alongside the predicted value (dashed purple line) in the admin dashboard.
 
@@ -248,16 +118,16 @@ The forecast chart displays actual revenue (solid blue line) alongside the predi
 
 ## API Integrations Detail
 
-### Google Gemini — Insurance Advisor
+### Google Gemini â€” Insurance Advisor
 The public homepage features an AI advisor form. Users enter age, occupation, income, and family status. The `GeminiService` constructs a prompt, optionally enriches it with real-time market data from Tavily, and returns personalized insurance recommendations.
 
-### Google Gemini — Auto-Reply
+### Google Gemini â€” Auto-Reply
 When a customer sends a contact message, `GeminiService.GenerateContactAutoReply()` generates a professional, context-aware response that references the customer's specific inquiry.
 
-### Hugging Face — Message Classification
-`HuggingFaceService` uses the `facebook/bart-large-mnli` model for zero-shot classification. Each incoming contact message is categorized as: `complaint`, `inquiry`, `thank you`, `request`, `feedback`, or `urgent` — with confidence scores. Includes a keyword-based fallback if the API is unavailable.
+### Hugging Face â€” Message Classification
+`HuggingFaceService` uses the `facebook/bart-large-mnli` model for zero-shot classification. Each incoming contact message is categorized as: `complaint`, `inquiry`, `thank you`, `request`, `feedback`, or `urgent` â€” with confidence scores. Includes a keyword-based fallback if the API is unavailable.
 
-### Tavily — Real-time Search
+### Tavily â€” Real-time Search
 When the AI advisor or auto-reply detects the user is asking about current pricing or market data, `TavilyService` performs an advanced web search and injects the results into the Gemini prompt for grounded, up-to-date responses.
 
 ---
@@ -285,7 +155,7 @@ When the AI advisor or auto-reply detects the user is asking about current prici
 
 ## Developer
 
-**Emre Okan Baþkaya**
+**Emre Okan BaÃ¾kaya**
 - GitHub: [@emreokanbaskaya1](https://github.com/emreokanbaskaya1)
 
 ---
@@ -298,11 +168,11 @@ This project is licensed under the MIT License.
 
 ## Acknowledgements
 
-- [LifeSure Template](https://themewagon.com/themes/free-bootstrap-insurance-website-template-lifesure/) — Frontend UI theme
-- [Google Gemini API](https://ai.google.dev/gemini-api/docs) — AI language model
-- [Hugging Face](https://huggingface.co/) — Zero-shot classification
-- [Tavily](https://tavily.com/) — Web search API
-- [Chart.js](https://www.chartjs.org/) — Data visualization
-- [Tailwind CSS](https://tailwindcss.com/) — Admin panel styling
-- [Bootstrap 5](https://getbootstrap.com/) — Public site styling
-- [Entity Framework](https://docs.microsoft.com/en-us/ef/) — ORM
+- [LifeSure Template](https://themewagon.com/themes/free-bootstrap-insurance-website-template-lifesure/) â€” Frontend UI theme
+- [Google Gemini API](https://ai.google.dev/gemini-api/docs) â€” AI language model
+- [Hugging Face](https://huggingface.co/) â€” Zero-shot classification
+- [Tavily](https://tavily.com/) â€” Web search API
+- [Chart.js](https://www.chartjs.org/) â€” Data visualization
+- [Tailwind CSS](https://tailwindcss.com/) â€” Admin panel styling
+- [Bootstrap 5](https://getbootstrap.com/) â€” Public site styling
+- [Entity Framework](https://docs.microsoft.com/en-us/ef/) â€” ORM
